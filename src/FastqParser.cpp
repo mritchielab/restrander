@@ -42,7 +42,7 @@ FastqParser::FastqParser(std::string inFilename, std::string outFilename)
             if (rec.isAmbiguous()) {
                 this->ambigReads++;
             } else {
-                if (rec.isReversed()) {
+                if (rec.isReverse()) {
                     this->rvReads++;
                 } else {
                     this->fwReads++;

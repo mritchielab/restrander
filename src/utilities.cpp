@@ -59,6 +59,9 @@ reverseComplement(std::string * s)
     return complement(&sReverse);
 }
 
+/*
+    checks whether a polyA tail is present anywhere in a sequence
+*/
 bool
 hasPolyATail(std::string * seq, int polyAThreshold)
 {
@@ -78,7 +81,9 @@ hasPolyATail(std::string * seq, int polyAThreshold)
     return false;
 }
 
-
+/*
+    checks whether a polyT tail is present anywhere in a sequence
+*/
 bool
 hasPolyTTail(std::string * seq, int polyTThreshold)
 {

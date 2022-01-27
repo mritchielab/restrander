@@ -8,16 +8,13 @@ class Record
     private:
         std::string
         identifier;
-
         std::string
         sequence;
-
         std::string
         quality;
 
         bool
-        rv;
-
+        rev;
         bool
         ambiguous;
 
@@ -33,13 +30,13 @@ class Record
         print();
 
         bool
-        classifyReversed(std::string method="safe");
+        classifyReverse(std::string method="safe");
 
         bool
         isAmbiguous();
 
         bool
-        isReversed();
+        isReverse();
 };
 
 #endif

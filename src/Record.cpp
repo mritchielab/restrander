@@ -19,7 +19,7 @@ Record::Record
     this->quality = quality;
 
     this->ambiguous = false;
-    this->rv = classifyReversed();
+    this->rev = classifyReverse();
 
 }
 
@@ -34,7 +34,7 @@ Record::print()
     if (this->ambiguous) {
         this->identifier += "ambiguous";
     } else {
-        if (this->rv) {
+        if (this->rev) {
             this->identifier += "reverse";
             this->sequence = reverseComplement(&this->sequence);
             this->quality = reverse(&this->quality);
@@ -47,10 +47,10 @@ Record::print()
 }
 
 /*
-    classifies whether this is a forward read or a reversed read
+    classifies whether this is a forward read or a reverse read
 */
 bool
-Record::classifyReversed(std::string method)
+Record::classifyReverse(std::string method)
 {
     if (method == "fast") {
         return !hasPolyATail(&this->sequence);
@@ -70,14 +70,20 @@ Record::classifyReversed(std::string method)
     return 0;
 }
 
+/*
+    checks whether the record is ambiguous
+*/
 bool
 Record::isAmbiguous()
 {
     return this->ambiguous;
 }
 
+/*
+    checks whether the record is reversed
+*/
 bool
-Record::isReversed()
+Record::isReverse()
 {
-    return this->rv;
+    return this->rev;
 }

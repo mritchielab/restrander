@@ -12,12 +12,14 @@
 int
 main(int argc, char ** argv)
 {
+    // make sure the right number of arguments were given
     if (argc != 3) {
         std::cout << C_YELLOW << "Wrong number of arguments!" << C_DEFAULT << " Use format:\n"
             << "\trestrander [input filename] [output filename]\n" << C_DEFAULT;
         return 0;
     }
 
+    // open the necessary files
     std::string inFilename (argv[1]);
     std::string outFilename (argv[2]);
 
@@ -25,13 +27,13 @@ main(int argc, char ** argv)
         << "\tInput filename  :\t" << inFilename << "\n"
         << "\tOutput filename :\t" << outFilename << "\n";
 
+    // start the restrander
     std::cout << C_GREEN << "Started restranding...\n" << C_DEFAULT;
     FastqParser parser (inFilename, outFilename);
-
     std::cout << C_GREEN << "Finished restranding!\n" << C_DEFAULT;
 
+    // print out the stats
     Stats stats = parser.stats();
-
     std::cout
         << "\tTotal reads:   " << stats.reads << "\n"
         << "\tForward reads: " << stats.fwReads << "\n"
