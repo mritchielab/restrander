@@ -58,3 +58,22 @@ reverseComplement(std::string * s)
     std::string sReverse = reverse(s);
     return complement(&sReverse);
 }
+
+bool
+hasPolyATail(std::string * seq, int polyAThreshold)
+{
+    int polyA = 0;
+
+    for (const auto & c : *seq) {
+        if (c == 'A') {
+            polyA++;
+        } else {
+            polyA = 0;
+        }
+
+        if (polyA >= polyAThreshold) {
+            return true;
+        }
+    }
+    return false;
+}

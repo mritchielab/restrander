@@ -1,0 +1,1 @@
+g++ -std=c++17 -o restrander src/utilities.cpp src/Record.cpp src/FastqParser.cpp src/main.cpp

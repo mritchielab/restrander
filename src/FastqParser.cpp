@@ -18,8 +18,8 @@ FastqParser::FastqParser(std::string inFilename, std::string outFilename)
     std::string line;
     // iterate over each line in the file
     while(getline(inFile, line)) {
-        if (file_line_num % 100000 == 0) {
-            std::cout << "up to line " << file_line_num << "\n";
+        if (file_line_num % 100000 == 0 && file_line_num > 0) {
+            std::cout << "\tUp to line " << file_line_num << "...\n";
         }
         // work out where we are up to within this record
         int rec_line_num = file_line_num % 4;

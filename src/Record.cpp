@@ -15,6 +15,8 @@ Record::Record
     this->identifier = identifier;
     this->sequence = sequence;
     this->quality = quality;
+
+    this->rv = isRecordReversed();
 }
 
 /*
@@ -36,7 +38,7 @@ Record::print()
     classifies whether this is a forward read or a reversed read
 */
 bool
-isRecordReversed()
+Record::isRecordReversed()
 {
-
+    return !hasPolyATail(&this->sequence);
 }

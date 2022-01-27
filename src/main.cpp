@@ -3,14 +3,30 @@
 #include "FastqParser.h"
 #include "utilities.h"
 
+#define C_MAGENTA   "\x1B[35m"
+#define C_DEFAULT   "\x1B[0m"
+#define C_GREEN     "\x1B[32m"
+#define C_RED       "\x1B[31m"
+#define C_YELLOW    "\x1B[33m"
+
 int
-main()
+main(int argc, char ** argv)
 {
-    // FastqParser parser ("../data/long/barcode01.pass1.fq", "outfile.fq");
-    FastqParser parser ("../data/short/barcode01.pass1.short.fq", "outfile.fq");
-    std::string seq = "GAC";
-    std::cout << "seq:" << seq;
-    std::cout << "complement:" << complement(&seq);
-    std::cout << "reverse complement:" << reverseComplement(&seq);
-    std::cout << "seq:" << seq;
+    if (argc != 3) {
+        std::cout << C_YELLOW << "Wrong number of arguments!" << C_DEFAULT << " Use format:\n"
+            << "\trestrander [input filename] [output filename]\n" << C_DEFAULT;
+        return 0;
+    }
+
+    std::string inFilename (argv[1]);
+    std::string outFilename (argv[2]);
+
+    std::cout << "Restrander initialised.\n"
+        << "\tInput filename  :\t" << inFilename << "\n"
+        << "\tOutput filename :\t" << outFilename << "\n";
+
+    std::cout << C_GREEN << "Started restranding...\n" << C_DEFAULT;
+    FastqParser parser (inFilename, outFilename);
+
+    std::cout << C_GREEN << "Finished restranding!\n" << C_DEFAULT;
 }
