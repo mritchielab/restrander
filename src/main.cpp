@@ -29,4 +29,12 @@ main(int argc, char ** argv)
     FastqParser parser (inFilename, outFilename);
 
     std::cout << C_GREEN << "Finished restranding!\n" << C_DEFAULT;
+
+    Stats stats = parser.stats();
+
+    std::cout
+        << "\tTotal reads:   " << stats.reads << "\n"
+        << "\tForward reads: " << stats.fwReads << "\n"
+        << "\tReverse reads: " << stats.rvReads << "\n"
+        << "\tAmbig reads:   " << stats.ambigReads << "\n";
 }

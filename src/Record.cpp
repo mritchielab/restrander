@@ -1,5 +1,7 @@
 #include "Record.h"
 
+#include <iostream>
+
 #include "utilities.h"
 
 /*
@@ -16,7 +18,9 @@ Record::Record
     this->sequence = sequence;
     this->quality = quality;
 
-    this->rv = isRecordReversed();
+    this->ambiguous = false;
+    this->rv = classifyReversed();
+
 }
 
 /*
@@ -25,10 +29,18 @@ Record::Record
 std::string
 Record::print()
 {
-    if (this->rv) {
-        this->identifier += " _rev";
-        this->sequence = reverseComplement(&this->sequence);
-        this->quality = reverse(&this->quality);
+    this->identifier += " direction=";
+    
+    if (this->ambiguous) {
+        this->identifier += "ambiguous";
+    } else {
+        if (this->rv) {
+            this->identifier += "reverse";
+            this->sequence = reverseComplement(&this->sequence);
+            this->quality = reverse(&this->quality);
+        } else {
+            this->identifier += "forward";
+        }
     }
 
     return this->identifier + "\n" + this->sequence + "\n+\n" + this->quality + "\n";
@@ -38,7 +50,34 @@ Record::print()
     classifies whether this is a forward read or a reversed read
 */
 bool
-Record::isRecordReversed()
+Record::classifyReversed(std::string method)
 {
-    return !hasPolyATail(&this->sequence);
+    if (method == "fast") {
+        return !hasPolyATail(&this->sequence);
+    } else if (method == "safe") {
+        bool polyATail = hasPolyATail(&this->sequence);
+        bool polyTTail = hasPolyTTail(&this->sequence);
+
+        if (polyATail && polyTTail) {
+            // std::cout << "Warning: Ambiguous sequence has both tails!\n";
+            this->ambiguous = true;
+        }
+
+        return polyTTail && !polyATail;
+    }
+
+    // should never get out here
+    return 0;
+}
+
+bool
+Record::isAmbiguous()
+{
+    return this->ambiguous;
+}
+
+bool
+Record::isReversed()
+{
+    return this->rv;
 }

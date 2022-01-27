@@ -18,6 +18,9 @@ class Record
         bool
         rv;
 
+        bool
+        ambiguous;
+
     public:
         Record
         (
@@ -30,7 +33,13 @@ class Record
         print();
 
         bool
-        isRecordReversed();
+        classifyReversed(std::string method="safe");
+
+        bool
+        isAmbiguous();
+
+        bool
+        isReversed();
 };
 
 #endif

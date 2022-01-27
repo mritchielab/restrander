@@ -35,9 +35,29 @@ FastqParser::FastqParser(std::string inFilename, std::string outFilename)
             // we've got everything about this record
             // time to create it
             Record rec (identifier, sequence, quality);
-
             outFile << rec.print();
+
+            //  keep track of stats as we go
+            this->reads++;
+            if (rec.isAmbiguous()) {
+                this->ambigReads++;
+            } else {
+                if (rec.isReversed()) {
+                    this->rvReads++;
+                } else {
+                    this->fwReads++;
+                }
+            }
         }
         file_line_num++;
     }
+}
+
+/*
+    extract the read stats from this parser
+*/
+Stats
+FastqParser::stats()
+{
+    return {this->reads, this->fwReads, this->rvReads, this->ambigReads};
 }

@@ -77,3 +77,23 @@ hasPolyATail(std::string * seq, int polyAThreshold)
     }
     return false;
 }
+
+
+bool
+hasPolyTTail(std::string * seq, int polyTThreshold)
+{
+    int polyT = 0;
+
+    for (auto it = (*seq).end(); it != (*seq).begin(); --it) {
+        if (*it == 'T') {
+            polyT++;
+        } else {
+            polyT = 0;
+        }
+
+        if (polyT >= polyTThreshold) {
+            return true;
+        }
+    }
+    return false;
+}
