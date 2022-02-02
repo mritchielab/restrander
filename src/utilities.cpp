@@ -2,6 +2,7 @@
 #include <string>
 #include <sstream>
 #include <algorithm>
+#include <iostream>
 
 #include "utilities.h"
 
@@ -60,15 +61,16 @@ reverseComplement(std::string * s)
 }
 
 /*
-    checks whether a polyA tail is present anywhere in a sequence
+    checks whether a polyA tail is present in the last countThreshold characters of a sequence
 */
 bool
-hasPolyATail(std::string * seq, int polyAThreshold)
+hasPolyATail(std::string * seq, int polyAThreshold, int countThreshold)
 {
     int polyA = 0;
-
-    for (const auto & c : *seq) {
-        if (c == 'A') {
+    int counted = 0;
+    
+    for (auto it = (*seq).end(); it != (*seq).begin() && counted < countThreshold; --it) {
+        if (*it == 'A') {
             polyA++;
         } else {
             polyA = 0;
@@ -77,19 +79,23 @@ hasPolyATail(std::string * seq, int polyAThreshold)
         if (polyA >= polyAThreshold) {
             return true;
         }
+
+        counted++;
     }
     return false;
 }
 
 /*
-    checks whether a polyT tail is present anywhere in a sequence
+    checks whether a polyT tail is present in the first countThreshold characters of a sequence
 */
 bool
-hasPolyTTail(std::string * seq, int polyTThreshold)
+hasPolyTTail(std::string * seq, int polyTThreshold, int countThreshold)
 {
     int polyT = 0;
+    int counted = 0;
+    int seqLength = (*seq).size();
 
-    for (auto it = (*seq).end(); it != (*seq).begin(); --it) {
+    for (auto it = (*seq).begin(); it != (*seq).end() && counted < countThreshold; ++it) {
         if (*it == 'T') {
             polyT++;
         } else {
@@ -99,6 +105,8 @@ hasPolyTTail(std::string * seq, int polyTThreshold)
         if (polyT >= polyTThreshold) {
             return true;
         }
+
+        counted++;
     }
     return false;
 }

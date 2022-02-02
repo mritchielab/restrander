@@ -33,10 +33,10 @@ main(int argc, char ** argv)
     std::cout << C_GREEN << "Finished restranding!\n" << C_DEFAULT;
 
     // print out the stats
-    Stats stats = parser.stats();
+    Stats stats = parser.getStats();
     std::cout
-        << "\tTotal reads:   " << stats.reads << "\n"
-        << "\tForward reads: " << stats.fwReads << "\n"
-        << "\tReverse reads: " << stats.rvReads << "\n"
-        << "\tAmbig reads:   " << stats.ambigReads << "\n";
+        << "\tTotal reads:   " << stats["reads"] << "\n"
+        << "\tForward reads: " << stats["forward"] << "\n"
+        << "\tReverse reads: " << stats["reverse"] << "\n"
+        << "\tAmbig reads:   " << stats["ambiguous"] << "\n";
 }

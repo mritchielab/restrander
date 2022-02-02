@@ -2,23 +2,21 @@
 #define FASTQPARSER_H
 
 #include <string>
+#include <unordered_map>
 
-struct Stats
-{
-    int reads, fwReads, rvReads, ambigReads;
-};
+typedef std::unordered_map<std::string, int> Stats;
 
 class FastqParser
 {
     private:
         std::string filename;
-        int reads=0, fwReads=0, rvReads=0, ambigReads=0;
+        Stats stats;
 
     public:
         FastqParser(std::string inFilename, std::string outFilename);
 
         Stats
-        stats();
+        getStats();
 };
 
 #endif

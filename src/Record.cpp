@@ -17,10 +17,8 @@ Record::Record
     this->identifier = identifier;
     this->sequence = sequence;
     this->quality = quality;
-
-    this->ambiguous = false;
-    this->rev = classifyReverse();
-
+    
+    this->direction = classifyDirection();
 }
 
 /*
@@ -29,61 +27,53 @@ Record::Record
 std::string
 Record::print()
 {
-    this->identifier += " direction=";
+    // first, add on the direction tag
+    this->identifier += " direction=" + this->direction;
     
-    if (this->ambiguous) {
-        this->identifier += "ambiguous";
-    } else {
-        if (this->rev) {
-            this->identifier += "reverse";
-            this->sequence = reverseComplement(&this->sequence);
-            this->quality = reverse(&this->quality);
-        } else {
-            this->identifier += "forward";
-        }
+    // if it's a reverse read, we need to take the reverse of some things
+    if (this->direction == "reverse") {
+        this->sequence = reverseComplement(&this->sequence);
+        this->quality = reverse(&this->quality);
     }
-
+    
+    // then construct the formatted record
     return this->identifier + "\n" + this->sequence + "\n+\n" + this->quality + "\n";
 }
 
 /*
     classifies whether this is a forward read or a reverse read
 */
-bool
-Record::classifyReverse(std::string method)
+std::string
+Record::classifyDirection(std::string method)
 {
     if (method == "fast") {
-        return !hasPolyATail(&this->sequence);
+        if (!hasPolyATail(&this->sequence)) {
+            return "forward";
+        } else {
+            return "reverse";
+        }
     } else if (method == "safe") {
         bool polyATail = hasPolyATail(&this->sequence);
         bool polyTTail = hasPolyTTail(&this->sequence);
 
-        if (polyATail && polyTTail) {
-            // std::cout << "Warning: Ambiguous sequence has both tails!\n";
-            this->ambiguous = true;
+        if (polyATail && !polyTTail) {
+            return "forward";
+        } else if (!polyATail && polyTTail) {
+            return "reverse";
+        } else if ((polyATail && polyTTail) || (!polyATail && !polyTTail)) {
+            return "ambiguous";
         }
-
-        return polyTTail && !polyATail;
     }
 
     // should never get out here
-    return 0;
+    return "ambiguous";
 }
 
 /*
     checks whether the record is ambiguous
 */
-bool
-Record::isAmbiguous()
+std::string
+Record::getDirection()
 {
-    return this->ambiguous;
-}
-
-/*
-    checks whether the record is reversed
-*/
-bool
-Record::isReverse()
-{
-    return this->rev;
+    return this->direction;
 }

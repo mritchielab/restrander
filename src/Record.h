@@ -13,10 +13,8 @@ class Record
         std::string
         quality;
 
-        bool
-        rev;
-        bool
-        ambiguous;
+        std::string
+        direction;
 
     public:
         Record
@@ -29,14 +27,11 @@ class Record
         std::string
         print();
 
-        bool
-        classifyReverse(std::string method="safe");
+        std::string
+        classifyDirection(std::string method="safe");
 
-        bool
-        isAmbiguous();
-
-        bool
-        isReverse();
+        std::string
+        getDirection();
 };
 
 #endif
