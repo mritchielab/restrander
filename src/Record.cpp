@@ -12,14 +12,15 @@ Record::Record
 (
     std::string identifier,
     std::string sequence,
-    std::string quality
+    std::string quality,
+    std::string method
 )
 {
     this->identifier = identifier;
     this->sequence = sequence;
     this->quality = quality;
     
-    this->direction = classifyDirection(&this->sequence, "standard");
+    this->direction = classifyDirection(&this->sequence, method);
 }
 
 /*

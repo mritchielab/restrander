@@ -16,6 +16,7 @@ classifyDirection(std::string* seq, std::string method)
     classifiers["standard"]     = {classifyPoly,classifyPrimerFast};
     classifiers["slow"]         = {classifyPoly,classifyPrimerSlow};
     classifiers["superslow"]    = {classifyPoly,classifyPrimerSuperSlow};
+    classifiers["trimmed"]      = {classifyPoly};
 
     return classifyPipeline(seq, classifiers[method]);
 }

@@ -13,7 +13,7 @@ class FastqParser
         Stats stats;
 
     public:
-        FastqParser(std::string inFilename, std::string outFilename);
+        FastqParser(std::string inFilename, std::string outFilename, std::string method);
 
         Stats
         getStats();

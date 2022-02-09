@@ -21,7 +21,8 @@ class Record
         (
             std::string identifier,
             std::string sequence,
-            std::string quality
+            std::string quality,
+            std::string method
         );
 
         std::string

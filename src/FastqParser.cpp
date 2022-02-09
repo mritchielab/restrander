@@ -6,7 +6,7 @@
 
 #include "Record.h"
 
-FastqParser::FastqParser(std::string inFilename, std::string outFilename)
+FastqParser::FastqParser(std::string inFilename, std::string outFilename, std::string method)
 {
     // open the files
     std::ifstream
@@ -40,7 +40,7 @@ FastqParser::FastqParser(std::string inFilename, std::string outFilename)
             
             // we've got everything about this record
             // time to create it
-            Record rec (identifier, sequence, quality);
+            Record rec (identifier, sequence, quality, method);
             outFile << rec.print();
 
             //  keep track of stats as we go
