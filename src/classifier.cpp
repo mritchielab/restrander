@@ -58,10 +58,11 @@ classifyPoly(std::string* seq)
     } else if (!polyATail && polyTTail) {
         return "reverse";
     } else if ((polyATail && polyTTail) || (!polyATail && !polyTTail)) {
-        // in ambiguous cases,
-        // try the advanced method
         return "ambiguous";
     }
+
+    // should never get here
+    return "amiguous";
 }
 
 /*
@@ -81,6 +82,9 @@ classifyPrimer(std::string* seq, int editDist)
     } else if ((!SSP && !VNP) || (SSP && VNP)) {
         return "ambiguous";
     }
+
+    // should never get here
+    return "ambiguous";
 }
 
 /*

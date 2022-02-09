@@ -117,9 +117,9 @@ hasPolyTTail(std::string * seq, int polyTThreshold, int countThreshold)
     with some edit distance tolerance
 */
 bool
-hasVNP(std::string * seq, int thresholdDist, std::string VNP, int searchSize)
+hasVNP(std::string* seq, int thresholdDist, std::string VNP, int searchSize)
 {
-    return isFuzzyMatchPresent(seq, VNP, 200, thresholdDist);
+    return isFuzzyMatchPresent(seq, &VNP, 200, thresholdDist);
 }
 
 
@@ -128,7 +128,7 @@ hasVNP(std::string * seq, int thresholdDist, std::string VNP, int searchSize)
     with some edit distance tolerance
 */
 bool
-hasSSP(std::string * seq, int thresholdDist, std::string SSP, int searchSize)
+hasSSP(std::string* seq, int thresholdDist, std::string SSP, int searchSize)
 {
-    return isFuzzyMatchPresent(seq, SSP, 200, thresholdDist);
+    return isFuzzyMatchPresent(seq, &SSP, 200, thresholdDist);
 }
