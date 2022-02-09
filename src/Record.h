@@ -28,9 +28,6 @@ class Record
         print();
 
         std::string
-        classifyDirection(std::string method="safe");
-
-        std::string
         getDirection();
 };
 

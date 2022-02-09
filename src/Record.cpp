@@ -3,9 +3,10 @@
 #include <iostream>
 
 #include "utilities.h"
+#include "classifier.h"
 
 /*
-    Initialises a record
+    initialises a record
 */
 Record::Record
 (
@@ -18,7 +19,7 @@ Record::Record
     this->sequence = sequence;
     this->quality = quality;
     
-    this->direction = classifyDirection();
+    this->direction = classifyDirection(&this->sequence, "superslow");
 }
 
 /*
@@ -38,35 +39,6 @@ Record::print()
     
     // then construct the formatted record
     return this->identifier + "\n" + this->sequence + "\n+\n" + this->quality + "\n";
-}
-
-/*
-    classifies whether this is a forward read or a reverse read
-*/
-std::string
-Record::classifyDirection(std::string method)
-{
-    if (method == "fast") {
-        if (!hasPolyATail(&this->sequence)) {
-            return "forward";
-        } else {
-            return "reverse";
-        }
-    } else if (method == "safe") {
-        bool polyATail = hasPolyATail(&this->sequence);
-        bool polyTTail = hasPolyTTail(&this->sequence);
-
-        if (polyATail && !polyTTail) {
-            return "forward";
-        } else if (!polyATail && polyTTail) {
-            return "reverse";
-        } else if ((polyATail && polyTTail) || (!polyATail && !polyTTail)) {
-            return "ambiguous";
-        }
-    }
-
-    // should never get out here
-    return "ambiguous";
 }
 
 /*

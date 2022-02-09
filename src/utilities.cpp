@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "utilities.h"
+#include "fuzzyMatch.h"
 
 /*
     gets the complement of an individual character
@@ -109,4 +110,25 @@ hasPolyTTail(std::string * seq, int polyTThreshold, int countThreshold)
         counted++;
     }
     return false;
+}
+
+/*
+    checks whether a seq has a VNP in the first searchSize characters, 
+    with some edit distance tolerance
+*/
+bool
+hasVNP(std::string * seq, int thresholdDist, std::string VNP, int searchSize)
+{
+    return isFuzzyMatchPresent(seq, VNP, 200, thresholdDist);
+}
+
+
+/*
+    checks whether a seq has an SSP in the first searchSize characters, 
+    with some edit distance tolerance
+*/
+bool
+hasSSP(std::string * seq, int thresholdDist, std::string SSP, int searchSize)
+{
+    return isFuzzyMatchPresent(seq, SSP, 200, thresholdDist);
 }
