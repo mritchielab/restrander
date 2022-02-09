@@ -19,7 +19,7 @@ Record::Record
     this->sequence = sequence;
     this->quality = quality;
     
-    this->direction = classifyDirection(&this->sequence, "superslow");
+    this->direction = classifyDirection(&this->sequence, "standard");
 }
 
 /*
