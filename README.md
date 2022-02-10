@@ -31,7 +31,7 @@ Each forward read is assumed to have a particular form:
 
 While a reverse read takes the form:
 
-``` handle - barcode - VNP - polyT - mRNA - SSP_reverse_complement - barcode_reverse_complement - handle_reverse complement ```
+``` handle - barcode - VNP - polyT - mRNA_reverse_complement - SSP_reverse_complement - barcode_reverse_complement - handle_reverse complement ```
 
 Because of these differences in form, we can use a few techniques for classifying direction:
 
