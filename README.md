@@ -12,6 +12,12 @@ Simply run `restrander`, giving one input file and one output file:
 ./restrander input.fq output.fq
 ```
 
+`restrander` will also work on gzipped files:
+
+```
+./restrander input.fq.gz output.fq.gz
+```
+
 Optionally, you can include another parameter to select the restranding method:
 
 ```
