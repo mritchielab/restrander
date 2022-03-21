@@ -15,6 +15,12 @@ class FastqParser
     public:
         FastqParser(std::string inFilename, std::string outFilename, std::string method);
 
+        void
+        parse(std::string inFilename, std::string outFilename, std::string method);
+
+        void
+        parseGz(std::string inFilenameGz, std::string outFilenameGz, std::string method);
+
         Stats
         getStats();
 };

@@ -3,12 +3,26 @@
 #include <fstream>
 #include <iostream>
 #include <unordered_map>
+#include <zlib.h>
 
 #include "Record.h"
 
 FastqParser::FastqParser(std::string inFilename, std::string outFilename, std::string method)
 {
-    // open the files
+    this->stats = {};
+
+    if (inFilename.back() == 'z') {
+        std::cout << "Gzipped format detected! Parsing gzipped file...\n";
+        this->parseGz(inFilename, outFilename, method);
+    } else {
+        parse(inFilename, outFilename, method);
+    }
+}
+
+void
+FastqParser::parse(std::string inFilename, std::string outFilename, std::string method)
+{
+    
     std::ifstream
     inFile (inFilename);
     std::ofstream
@@ -18,9 +32,7 @@ FastqParser::FastqParser(std::string inFilename, std::string outFilename, std::s
     int fileLineNum = 0;
     std::string line;
 
-    Stats stats;
-
-    // int longestSeq, shortestSeq, averageSeq;
+    // double shortestSeq=1000000, longestSeq=0, averageSeq=0;
 
     // iterate over each line in the file
     while(getline(inFile, line)) {
@@ -28,14 +40,14 @@ FastqParser::FastqParser(std::string inFilename, std::string outFilename, std::s
             std::cout << "\tUp to line " << fileLineNum << "...\n";
         }
         // work out where we are up to within this record
-        int rec_line_num = fileLineNum % 4;
+        int recLineNum = fileLineNum % 4;
 
         // store whatever is appropriate for this line
-        if (rec_line_num == 0) {
+        if (recLineNum == 0) {
             identifier = line;
-        } else if (rec_line_num == 1) {
+        } else if (recLineNum == 1) {
             sequence = line;
-        } else if (rec_line_num == 3) {
+        } else if (recLineNum == 3) {
             quality = line;
             
             // we've got everything about this record
@@ -61,12 +73,66 @@ FastqParser::FastqParser(std::string inFilename, std::string outFilename, std::s
         }
         fileLineNum++;
     }
+
     // averageSeq /= this->stats["reads"];
     // std::cout 
     //     << "Shortest seq: " << shortestSeq << "\n"
     //     << "Longest seq: " << longestSeq << "\n"
     //     << "Average seq: " << averageSeq << "\n";
 }
+
+void
+FastqParser::parseGz(std::string inFilenameGz, std::string outFilenameGz, std::string method)
+{
+    // open the files
+    gzFile
+    inFileGz = gzopen(inFilenameGz.c_str(), "r"),
+    outFileGz = gzopen(outFilenameGz.c_str(), "w");
+
+    std::string identifier, sequence, quality;
+    int fileLineNum = 0;
+    char line [200000];
+
+    while (gzgets(inFileGz, line, 200000)) {
+        if (fileLineNum % 100000 == 0 && fileLineNum > 0) {
+            std::cout << "\tUp to line " << fileLineNum << "...\n";
+        }
+
+        //  work out where we are up to in this record
+        int recLineNum = fileLineNum % 4;
+
+        //  store whatever is appropriate for this line
+        if (recLineNum == 0) {
+            identifier = line;
+            identifier.pop_back();
+        } else if (recLineNum == 1) {
+            sequence = line;
+            sequence.pop_back();
+        } else if (recLineNum == 3) {
+            quality = line;
+            quality.pop_back();
+
+            //  we've got everything about this record
+            //  time to create it
+            Record rec (identifier, sequence, quality, method);
+            std::string
+            outLine = rec.print();
+            gzwrite(outFileGz, outLine.c_str(), sizeof(char) * outLine.size());
+            
+            auto direction = rec.getDirection();
+            if (!this->stats.count(direction)) {
+                this->stats[direction] = 0;
+            }
+            this->stats[direction]++;
+            this->stats["reads"]++;
+        }
+        fileLineNum++;
+    }
+
+    gzclose(inFileGz);
+    gzclose(outFileGz);
+}
+
 
 /*
     extract the read stats from this parser

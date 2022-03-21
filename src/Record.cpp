@@ -16,6 +16,12 @@ Record::Record
     std::string method
 )
 {
+    // std::cout << "created record:\n"
+    //         << "\tidentifier: " << identifier << "\n"
+    //         << "\tsequence: " << sequence << "\n" 
+    //         << "\tquality: " << quality << "\n"
+            // << "\tmethod: " << method << "\n";
+
     this->identifier = identifier;
     this->sequence = sequence;
     this->quality = quality;

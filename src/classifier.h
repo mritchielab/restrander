@@ -5,8 +5,8 @@
 #include <vector>
 #include <functional>
 
-typedef std::function<std::string(std::string*)> ClassifyFunction;
-typedef std::vector<ClassifyFunction> Pipeline;
+using ClassifyFunction = std::function<std::string(std::string*)>;
+using Pipeline = std::vector<ClassifyFunction>;
 
 std::string
 classifyDirection(std::string* seq, std::string method);
@@ -29,4 +29,4 @@ classifyPrimerSlow(std::string* seq);
 std::string
 classifyPrimerSuperSlow(std::string* seq);
 
-#endif // CLASSIFIER_H
+#endif
