@@ -56,12 +56,12 @@ FastqParser::parse(std::string inFilename, std::string outFilename, std::string 
             outFile << rec.print();
 
             //  keep track of stats as we go
-            auto direction = rec.getDirection();
+            auto direction = rec.getStrand();
             if (!this->stats.count(direction)) {
                 this->stats[direction] = 0;
             }
             this->stats[direction]++;
-            this->stats["reads"]++;
+            this->stats['r']++;
 
             // int seqLength = sequence.size();
             // if (seqLength < shortestSeq) {
@@ -119,12 +119,12 @@ FastqParser::parseGz(std::string inFilenameGz, std::string outFilenameGz, std::s
             outLine = rec.print();
             gzwrite(outFileGz, outLine.c_str(), sizeof(char) * outLine.size());
             
-            auto direction = rec.getDirection();
+            auto direction = rec.getStrand();
             if (!this->stats.count(direction)) {
                 this->stats[direction] = 0;
             }
             this->stats[direction]++;
-            this->stats["reads"]++;
+            this->stats['r']++;
         }
         fileLineNum++;
     }

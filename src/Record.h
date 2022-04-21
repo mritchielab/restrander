@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "classifier.h"
+
 class Record
 {
     private:
@@ -13,8 +15,8 @@ class Record
         std::string
         quality;
 
-        std::string
-        direction;
+        Strand
+        strand;
 
     public:
         Record
@@ -28,8 +30,8 @@ class Record
         std::string
         print();
 
-        std::string
-        getDirection();
+        Strand
+        getStrand();
 };
 
 #endif

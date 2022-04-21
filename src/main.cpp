@@ -27,10 +27,10 @@ validMethod(std::string method) {
     std::map<std::string, std::string>
     methods;
 
-    methods["standard"] = "Checks for PolyA and PolyT tails, and in ambiguous cases looks for SSP or VNP. Works in around 99.6% of cases.";
-    methods["slow"]     = "Same as standard, but allows for higher edit distance in SSP/VNP. Will result in higher accuracy, but much slower.";
-    methods["superslow"]     = "Even higher edit distance than slow, this method allows very large margin for error in SSP/VNP. Use at your own risk.";
-    methods["trimmed"]  = "Only searches for PolyA and PolyT tails. Useful for trimmed reads.";
+    methods["standard"]     = "Checks for PolyA and PolyT tails, and in ambiguous cases looks for SSP or VNP. Works in around 99.6% of cases.";
+    methods["slow"]         = "Same as standard, but allows for higher edit distance in SSP/VNP. Will result in higher accuracy, but much slower.";
+    methods["superslow"]    = "Even higher edit distance than slow, this method allows very large margin for error in SSP/VNP. Use at your own risk.";
+    methods["trimmed"]      = "Only searches for PolyA and PolyT tails. Useful for trimmed reads.";
 
     if (methods.count(method)) {
         std::cout << "Restranding method set to \"" << method << "\"\n";
@@ -77,8 +77,8 @@ main(int argc, char ** argv)
     // print out the stats
     Stats stats = parser.getStats();
     std::cout
-        << "\tTotal reads:   " << stats["reads"] << "\n"
-        << "\tForward reads: " << stats["forward"] << "\n"
-        << "\tReverse reads: " << stats["reverse"] << "\n"
-        << "\tAmbig reads:   " << stats["ambiguous"] << "\n";
+        << "\tTotal reads:   " << stats['r'] << "\n"
+        << "\tForward reads: " << stats['+'] << "\n"
+        << "\tReverse reads: " << stats['-'] << "\n"
+        << "\tAmbig reads:   " << stats['?'] << "\n";
 }

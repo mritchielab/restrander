@@ -4,7 +4,7 @@
 #include <string>
 #include <unordered_map>
 
-typedef std::unordered_map<std::string, int> Stats;
+typedef std::unordered_map<char, int> Stats;
 
 class FastqParser
 {

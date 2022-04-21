@@ -5,28 +5,34 @@
 #include <vector>
 #include <functional>
 
-using ClassifyFunction = std::function<std::string(std::string*)>;
+
+using Strand = char;
+const Strand forwardStrand = '+';
+const Strand reverseStrand = '-';
+const Strand unknownStrand = '?';
+
+using ClassifyFunction = std::function<Strand(std::string*)>;
 using Pipeline = std::vector<ClassifyFunction>;
 
-std::string
-classifyDirection(std::string* seq, std::string method);
+Strand
+classifyStrand(std::string* seq, std::string method);
 
-std::string
+Strand
 classifyPipeline(std::string* seq, Pipeline funcs);
 
-std::string
+Strand
 classifyPoly(std::string* seq);
 
-std::string
+Strand
 classifyPrimer(std::string* seq, int editDist);
 
-std::string
+Strand
 classifyPrimerFast(std::string* seq);
 
-std::string
+Strand
 classifyPrimerSlow(std::string* seq);
 
-std::string
+Strand
 classifyPrimerSuperSlow(std::string* seq);
 
 #endif

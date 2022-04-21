@@ -26,7 +26,7 @@ Record::Record
     this->sequence = sequence;
     this->quality = quality;
     
-    this->direction = classifyDirection(&this->sequence, method);
+    this->strand = classifyStrand(&this->sequence, method);
 }
 
 /*
@@ -35,11 +35,12 @@ Record::Record
 std::string
 Record::print()
 {
-    // first, add on the direction tag
-    this->identifier += " direction=" + this->direction;
+    // first, add on the strand tag
+    this->identifier += " strand=";
+    this->identifier.push_back(this->strand);
     
     // if it's a reverse read, we need to take the reverse of some things
-    if (this->direction == "reverse") {
+    if (this->strand == '-') {
         this->sequence = reverseComplement(&this->sequence);
         this->quality = reverse(&this->quality);
     }
@@ -51,8 +52,8 @@ Record::print()
 /*
     checks whether the record is ambiguous
 */
-std::string
-Record::getDirection()
+char
+Record::getStrand()
 {
-    return this->direction;
+    return this->strand;
 }
