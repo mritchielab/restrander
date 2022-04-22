@@ -2,7 +2,7 @@
 
 A program for restranding Fastq files.
 
-Parses an input `.fq` file, classifying each record as either `forward`, `reverse` or `ambiguous`, and outputs to a new `.fq` with the classification of each read included in a `direction` tag. For reverse reads, the reverse-complement of the original sequence is recorded, and quality scores are also reversed. 
+Parses an input `.fq` file, classifying each record as either forward (`+`), reverse (`-`) or ambiguous (`?`), outputting to a new `.fq` with the classification of each read included in a `strand` tag. For reverse reads, the reverse-complement of the original sequence is recorded, and quality scores are also reversed. 
 
 # Usage instructions
 

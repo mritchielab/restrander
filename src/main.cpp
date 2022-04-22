@@ -31,6 +31,8 @@ validMethod(std::string method) {
     methods["slow"]         = "Same as standard, but allows for higher edit distance in SSP/VNP. Will result in higher accuracy, but much slower.";
     methods["superslow"]    = "Even higher edit distance than slow, this method allows very large margin for error in SSP/VNP. Use at your own risk.";
     methods["trimmed"]      = "Only searches for PolyA and PolyT tails. Useful for trimmed reads.";
+    methods["4"] = "edit distance 4";
+    methods["6"] = "edit distance 6";
 
     if (methods.count(method)) {
         std::cout << "Restranding method set to \"" << method << "\"\n";

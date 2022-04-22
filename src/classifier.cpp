@@ -17,6 +17,8 @@ classifyStrand(std::string* seq, std::string method)
     classifiers["slow"]         = {classifyPoly,classifyPrimerSlow};
     classifiers["superslow"]    = {classifyPoly,classifyPrimerSuperSlow};
     classifiers["trimmed"]      = {classifyPoly};
+    classifiers["4"]            = {classifyPrimer4};
+    classifiers["6"]            = {classifyPrimer6};
 
     return classifyPipeline(seq, classifiers[method]);
 }
@@ -115,4 +117,16 @@ Strand
 classifyPrimerSuperSlow(std::string* seq)
 {
     return classifyPrimer(seq, 7);
+}
+
+Strand
+classifyPrimer4 (std::string* seq)
+{
+    return classifyPrimer(seq, 4);
+}
+
+Strand
+classifyPrimer6 (std::string* seq)
+{
+    return classifyPrimer(seq, 6);
 }
