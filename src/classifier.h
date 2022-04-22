@@ -35,4 +35,10 @@ classifyPrimerSlow(std::string* seq);
 Strand
 classifyPrimerSuperSlow(std::string* seq);
 
+Strand
+classifyPrimer4(std::string* seq);
+
+Strand
+classifyPrimer6(std::string* seq);
+
 #endif
