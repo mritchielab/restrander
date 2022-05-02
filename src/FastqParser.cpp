@@ -91,9 +91,9 @@ FastqParser::parseGz(std::string inFilenameGz, std::string outFilenameGz, std::s
 
     std::string identifier, sequence, quality;
     int fileLineNum = 0;
-    char line [200000];
+    char line [500000];
 
-    while (gzgets(inFileGz, line, 200000)) {
+    while (gzgets(inFileGz, line, 500000)) {
         if (fileLineNum % 100000 == 0 && fileLineNum > 0) {
             std::cout << "\tUp to line " << fileLineNum << "...\n";
         }
