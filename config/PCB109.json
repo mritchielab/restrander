@@ -1,0 +1,17 @@
+{
+    "name": "PCB109",
+    "description": "Default settings for restrander.",
+    "pipeline": [
+        {
+            "type": "poly",
+            "tail-length": 12,
+            "search-size": 200
+        },
+        {
+            "type": "primer",
+            "ssp": "TTTCTGTTGGTGCTGATATTGCTGGG",
+            "vnp": "ACTTGCCTGTCGCTCTATCTTC",
+            "edit-distance": 6
+        }
+    ]
+}

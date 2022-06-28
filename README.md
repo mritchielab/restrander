@@ -2,7 +2,7 @@
 
 A program for restranding Fastq files.
 
-Parses an input `.fq` file, classifying each record as either forward (`+`), reverse (`-`) or ambiguous (`?`), outputting to a new `.fq` with the classification of each read included in a `strand` tag. For reverse reads, the reverse-complement of the original sequence is recorded, and quality scores are also reversed. 
+Parses an input `.fq` file, classifying each record as either forward (`+`), reverse (`-`) or ambiguous (`?`), outputting to a new `.fq` with the classification of each read included in a `strand` tag. For reverse reads, the reverse-complement of the original sequence is recorded, and quality scores are also reversed. Also works on gzipped `.gz` files.
 
 # Usage instructions
 
@@ -12,22 +12,11 @@ Simply run `restrander`, giving one input file and one output file:
 ./restrander input.fq output.fq
 ```
 
-`restrander` will also work on gzipped files:
+Optionally, you can provide a specific configuration file:
 
 ```
-./restrander input.fq.gz output.fq.gz
+./restrander input.fq output.fq config.json
 ```
-
-Optionally, you can include another parameter to select the restranding method:
-
-```
-./restrander input.fq output.fq restranding_method
-```
-
-- **standard** attempts PolyA/PolyT classification, and if this returns ambiguous, it applies SSP/VNP classification.
-- **slow** does the same, but allows for higher edit distance in SSP/VNP classification.
-- **superslow** does the same, but allows for even higher edit distance in SSP/VNP.
-- **trimmed** is for trimmed reads, which are in the form ``` mRNA - polyA ``` or ``` polyT - mRNA ```. Since they have no SSP/VNP, this method only applies PolyA/PolyT classification.
 
 # How it works
 
@@ -39,7 +28,7 @@ While a reverse read takes the form:
 
 ``` handle - barcode - VNP - polyT - mRNA_reverse_complement - SSP_reverse_complement - barcode_reverse_complement - handle_reverse complement ```
 
-Because of these differences in form, we can use a few techniques for classifying direction:
+Because of these differences, we can use a few techniques for classifying direction:
 
 ## PolyA/PolyT Classification
 
@@ -56,7 +45,7 @@ The drawback of this method is that often sequences include native PolyA/PolyT t
 
 ## SSP/VNP Classification
 
-A method of searching for the SSP and VNP near the start of the read to classify it. Often the SSP and VNP are not perfectly present in the read, so we allow for some [Levenshtein edit distance](https://en.wikipedia.org/wiki/Levenshtein_distance).
+A method of searching for the SSP and VNP near the start of the read to classify it. Often the SSP and VNP are not perfectly present in the read, allowing for some edit distance.
 
 | SSP found in sequence | VNP found in sequence | Classification  |
 | --------------------- | --------------------- | --------------- |
@@ -65,4 +54,14 @@ A method of searching for the SSP and VNP near the start of the read to classify
 | Yes                   | Yes                   | Ambiguous       |
 | No                    | No                    | Ambiguous       |
 
-This method takes notably longer than PolyA/PolyT classification. Additionally, sometimes the SSP and VNP are so wrong in the sequence that we cannot identify them, leading to ambiguous reads.
+This method takes longer than PolyA/PolyT classification. Additionally, sometimes the SSP and VNP are so wrong in the sequence that we cannot identify them, leading to ambiguous reads.
+
+# Configurations
+
+## PCB109
+
+First applies PolyA/PolyT classification, then looks for the standard SSP and VNP for PCB109 chemistry.
+
+## Trimmed
+
+Trimmed reads do not have primers, they only have PolyA/PolyT tails. Hence, the trimmed pipeline only performs PolyA/PolyT classification.

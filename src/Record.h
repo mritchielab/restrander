@@ -3,7 +3,8 @@
 
 #include <string>
 
-#include "classifier.h"
+#include "classify.h"
+#include "json.hpp"
 
 class Record
 {
@@ -15,23 +16,24 @@ class Record
         std::string
         quality;
 
-        Strand
-        strand;
-
     public:
+        Record();
+
         Record
         (
             std::string identifier,
             std::string sequence,
-            std::string quality,
-            std::string method
+            std::string quality
         );
 
+        void
+        classify(Pipeline& pipeline);
+
         std::string
-        print();
+        printFq();
 
         Strand
-        getStrand();
+        strand;
 };
 
 #endif

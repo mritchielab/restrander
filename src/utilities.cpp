@@ -5,7 +5,7 @@
 #include <iostream>
 
 #include "utilities.h"
-#include "fuzzyMatch.h"
+#include "ukkonenMatch.h"
 
 /*
     gets the complement of an individual character
@@ -31,10 +31,10 @@ complement(char c)
     by getting the complement of each character
 */
 std::string
-complement(std::string * s)
+complement(std::string& s)
 {
     std::string sComplement;
-    for (const auto & c : *s) {
+    for (const auto & c : s) {
         sComplement += complement(c);
     }
     return sComplement;
@@ -44,9 +44,9 @@ complement(std::string * s)
     copies a string, reverses the copy, and returns it
 */
 std::string
-reverse(std::string * s)
+reverse(std::string& s)
 {
-    std::string sReverse (*s);
+    std::string sReverse (s);
     std::reverse(sReverse.begin(), sReverse.end());
     return sReverse;
 }
@@ -55,22 +55,22 @@ reverse(std::string * s)
     gets the reverse complement of an entire string
 */
 std::string
-reverseComplement(std::string * s) 
+reverseComplement(std::string& s) 
 {
     std::string sReverse = reverse(s);
-    return complement(&sReverse);
+    return complement(sReverse);
 }
 
 /*
     checks whether a polyA tail is present in the last countThreshold characters of a sequence
 */
 bool
-hasPolyATail(std::string * seq, int polyAThreshold, int countThreshold)
+hasPolyATail(std::string& seq, int polyAThreshold, int countThreshold)
 {
     int polyA = 0;
     int counted = 0;
     
-    for (auto it = (*seq).end(); it != (*seq).begin() && counted < countThreshold; --it) {
+    for (auto it = seq.end(); it != seq.begin() && counted < countThreshold; --it) {
         if (*it == 'A') {
             polyA++;
         } else {
@@ -90,13 +90,13 @@ hasPolyATail(std::string * seq, int polyAThreshold, int countThreshold)
     checks whether a polyT tail is present in the first countThreshold characters of a sequence
 */
 bool
-hasPolyTTail(std::string * seq, int polyTThreshold, int countThreshold)
+hasPolyTTail(std::string& seq, int polyTThreshold, int countThreshold)
 {
     int polyT = 0;
     int counted = 0;
-    int seqLength = (*seq).size();
+    int seqLength = seq.size();
 
-    for (auto it = (*seq).begin(); it != (*seq).end() && counted < countThreshold; ++it) {
+    for (auto it = seq.begin(); it != seq.end() && counted < countThreshold; ++it) {
         if (*it == 'T') {
             polyT++;
         } else {
@@ -117,9 +117,9 @@ hasPolyTTail(std::string * seq, int polyTThreshold, int countThreshold)
     with some edit distance tolerance
 */
 bool
-hasVNP(std::string* seq, int thresholdDist, std::string VNP, int searchSize)
+hasVNP(std::string& seq, int thresholdDist, std::string VNP, int searchSize)
 {
-    return isFuzzyMatchPresent(seq, &VNP, 200, thresholdDist);
+    return containsMatch(seq, VNP, 200, thresholdDist);
 }
 
 
@@ -128,7 +128,7 @@ hasVNP(std::string* seq, int thresholdDist, std::string VNP, int searchSize)
     with some edit distance tolerance
 */
 bool
-hasSSP(std::string* seq, int thresholdDist, std::string SSP, int searchSize)
+hasSSP(std::string& seq, int thresholdDist, std::string SSP, int searchSize)
 {
-    return isFuzzyMatchPresent(seq, &SSP, 200, thresholdDist);
+    return containsMatch(seq, SSP, 200, thresholdDist);
 }

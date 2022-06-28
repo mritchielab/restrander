@@ -1,0 +1,11 @@
+{
+    "name": "trimmed",
+    "description": "Use for trimmed reads",
+    "pipeline": [
+        {
+            "type": "poly",
+            "tail-length": 12,
+            "search-size": 200
+        }
+    ]
+}

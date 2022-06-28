@@ -1,0 +1,17 @@
+{
+    "name": "PCB109 standard reversed",
+    "method": [
+        {
+            "type": "primer",
+            "ssp": "TTTCTGTTGGTGCTGATATTGCTGGG",
+            "vnp": "ACTTGCCTGTCGCTCTATCTTC",
+            "edit-distance": 6
+        },
+        {
+            "type": "poly",
+            "tail-length": 12,
+            "search-size": 200,
+            "edit-distance": 0
+        }
+    ]
+}
