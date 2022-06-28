@@ -2,7 +2,7 @@
 
 A program for restranding Fastq files.
 
-Parses an input `.fq` file, classifying each record as either forward (`+`), reverse (`-`) or ambiguous (`?`), outputting to a new `.fq` with the classification of each read included in a `strand` tag. For reverse reads, the reverse-complement of the original sequence is recorded, and quality scores are also reversed. Also works on gzipped `.gz` files.
+Parses an input `.fq` file, classifying each record as either forward `+`, reverse `-` or ambiguous `?`, outputting to a new `.fq` with the classification of each read included in a `strand` tag. For reverse reads, the reverse-complement of the original sequence is recorded, and quality scores are also reversed. Also works on gzipped `.gz` files.
 
 # Usage instructions
 
@@ -28,11 +28,11 @@ While a reverse read takes the form:
 
 ``` handle - barcode - VNP - polyT - mRNA_reverse_complement - SSP_reverse_complement - barcode_reverse_complement - handle_reverse complement ```
 
-Because of these differences, we can use a few techniques for classifying direction:
+Because of these differences, there are a few methods for classifying read direction:
 
 ## PolyA/PolyT Classification
 
-A naive method of looking through each sequence for a PolyA tail of ~12 consecutive As near the start, and a PolyT tail of ~12 consecutive Ts near the end.
+A naive method of looking through each sequence for a PolyA tail of consecutive As near the start, and a PolyT tail of consecutive Ts near the end.
 
 | PolyA tail present  | PolyT tail present  | Classification  |
 | ------------------- | ------------------- | --------------- |
@@ -60,8 +60,8 @@ This method takes longer than PolyA/PolyT classification. Additionally, sometime
 
 ## PCB109
 
-First applies PolyA/PolyT classification, then looks for the standard SSP and VNP for PCB109 chemistry.
+The default configuration. First applies PolyA/PolyT classification, then looks for the standard SSP and VNP used in PCB109 chemistry.
 
 ## Trimmed
 
-Trimmed reads do not have primers, they only have PolyA/PolyT tails. Hence, the trimmed pipeline only performs PolyA/PolyT classification.
+A configuration for trimmed reads. Trimmed reads do not have primers, they only have PolyA/PolyT tails. Hence, the trimmed pipeline only performs PolyA/PolyT classification.
