@@ -14,7 +14,7 @@ namespace artefact {
     classifyArtefact(
         std::string& seq, int editDistance, 
         std::string& tso, std::string& rt, 
-        bool TSO, bool rt
+        bool TSO, bool RT
     );
 
     std::string
