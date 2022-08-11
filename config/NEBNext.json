@@ -10,7 +10,7 @@
         {
             "type": "primer",
             "tso": "GCTAATCATTGCAAGCAGTGGTATCAACGCAGAGTACAT",
-            "vnp": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAGTACTCTGCGTTGATACCACTGCTT",
+            "rt": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAGTACTCTGCGTTGATACCACTGCTT",
             "edit-distance": 6,
             "report-artefacts": false 
         }

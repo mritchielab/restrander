@@ -8,13 +8,13 @@ namespace artefact {
     using Artefact = char;
     const Artefact none = ' ';
     const Artefact tsotso = 't';
-    const Artefact vnpvnp = 'v';
+    const Artefact rtrt = 'v';
 
     Artefact
     classifyArtefact(
         std::string& seq, int editDistance, 
-        std::string& tso, std::string& vnp, 
-        bool TSO, bool VNP
+        std::string& tso, std::string& rt, 
+        bool TSO, bool rt
     );
 
     std::string

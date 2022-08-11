@@ -84,13 +84,13 @@ classifyPoly(std::string& seq, int tailLength, int searchSize)
 }
 
 /*
-    classifies a sequence by looking for the TSO or VNP near the start,
+    classifies a sequence by looking for the TSO or RT near the start,
     using a given an edit distance
 */
 Result
 classifyPrimer(
     std::string& seq, int editDist, 
-    std::string tso, std::string vnp, 
+    std::string tso, std::string rt, 
     bool reportArtefacts
 )
 {   
@@ -98,19 +98,19 @@ classifyPrimer(
     strand = strand::unknown;
 
     bool TSO = hasTSO(seq, editDist, tso);
-    bool VNP = hasVNP(seq, editDist, vnp);
+    bool RT = hasRT(seq, editDist, rt);
 
     // do artefact detection if necessary
     artefact::Artefact
     artefact = reportArtefacts ? 
-        artefact::classifyArtefact(seq, editDist, tso, vnp, TSO, VNP) : 
+        artefact::classifyArtefact(seq, editDist, tso, rt, TSO, RT) : 
         artefact::none;
 
-    if (TSO && !VNP) {
+    if (TSO && !RT) {
         strand = strand::forward;
-    } else if (!TSO && VNP) {
+    } else if (!TSO && RT) {
         strand = strand::reverse;
-    } else if ((!TSO && !VNP) || (TSO && VNP)) {
+    } else if ((!TSO && !RT) || (TSO && RT)) {
         strand = strand::unknown;
     }
 
