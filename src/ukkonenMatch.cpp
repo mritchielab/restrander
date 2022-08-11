@@ -44,7 +44,7 @@ containsMatch(std::string &seq, std::string &key, int searchSize, int threshold)
             lact--;
         }
         if (lact == m) {
-            return 1; 
+            return 1;
         } else {
             lact++;
         }

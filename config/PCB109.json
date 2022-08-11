@@ -1,6 +1,6 @@
 {
     "name": "PCB109",
-    "description": "Default settings for restrander.",
+    "description": "The default configuration. First applies PolyA/PolyT classification, then looks for the standard TSO (SSP) and VNP used in PCB109 chemistry.",
     "pipeline": [
         {
             "type": "poly",
@@ -9,9 +9,10 @@
         },
         {
             "type": "primer",
-            "ssp": "TTTCTGTTGGTGCTGATATTGCTGGG",
+            "tso": "TTTCTGTTGGTGCTGATATTGCTGGG",
             "vnp": "ACTTGCCTGTCGCTCTATCTTC",
-            "edit-distance": 6
+            "edit-distance": 6,
+            "report-artefacts": true
         }
     ]
 }

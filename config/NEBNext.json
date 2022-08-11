@@ -1,0 +1,18 @@
+{
+    "name": "NEBNext single cell/low input",
+    "description": "First applies PolyA/PolyT classification, then looks for the standard RT primer and TSO used in NEBNext chemistry.",
+    "pipeline": [
+        {
+            "type": "poly",
+            "tail-length": 12,
+            "search-size": 200
+        },
+        {
+            "type": "primer",
+            "tso": "GCTAATCATTGCAAGCAGTGGTATCAACGCAGAGTACAT",
+            "vnp": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAGTACTCTGCGTTGATACCACTGCTT",
+            "edit-distance": 6,
+            "report-artefacts": false 
+        }
+    ]
+}

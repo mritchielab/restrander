@@ -4,6 +4,7 @@
 #include <string>
 
 #include "classify.h"
+#include "artefact.h"
 #include "json.hpp"
 
 class Record
@@ -11,7 +12,7 @@ class Record
     private:
         std::string
         identifier;
-        std::string
+        std::string 
         sequence;
         std::string
         quality;
@@ -32,8 +33,12 @@ class Record
         std::string
         printFq();
 
-        Strand
+        strand::Strand
         strand;
+
+        artefact::Artefact
+        artefact;
+
 };
 
 #endif

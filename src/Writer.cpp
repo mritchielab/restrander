@@ -19,7 +19,7 @@ Writer::Writer (std::string filename)
         // file is not gzipped, just open it
         this->file.open(filename);
         this->writeLineFunc = &Writer::writeLineStandard;
-        this->closeFunc = &Writer::close;
+        this->closeFunc = &Writer::closeStandard;
     }
     // extension should now be correct
 

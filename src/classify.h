@@ -6,25 +6,30 @@
 #include <functional>
 
 #include "json.hpp"
+#include "strand.h"
+#include "artefact.h"
 
-using Strand = char;
-const Strand forwardStrand = '+';
-const Strand reverseStrand = '-';
-const Strand unknownStrand = '?';
+/* struct to represent the result of one classification */
+struct Result
+{
+    strand::Strand strand;
+    artefact::Artefact artefact;
+};
 
-using Method = std::function<Strand(std::string&)>;
+
+using Method = std::function<Result(std::string&)>;
 using Pipeline = std::vector<Method>;
 
 Pipeline
 makeDefaultPipeline();
 
-Strand
+Result
 classifyPipeline(std::string& seq, Pipeline& pipeline);
 
-Strand
+Result
 classifyPoly(std::string& seq, int tailLength, int searchSize);
 
-Strand
-classifyPrimer(std::string& seq, int editDistance, std::string ssp, std::string vnp);
+Result
+classifyPrimer(std::string& seq, int editDistance, std::string tso, std::string vnp, bool classifyArtefacts);
 
 #endif

@@ -5,6 +5,8 @@
 #include "utilities.h"
 #include "classify.h"
 #include "json.hpp"
+#include "artefact.h"
+#include "strand.h"
 
 /*
     initialises an empty record
@@ -33,6 +35,7 @@ Record::Record
     this->identifier = identifier;
     this->sequence = sequence;
     this->quality = quality;
+    this->artefact = artefact::none;
 }
 
 /*
@@ -41,7 +44,9 @@ Record::Record
 void
 Record::classify(Pipeline& pipeline)
 {
-    this->strand = classifyPipeline(this->sequence, pipeline);
+    auto result = classifyPipeline(this->sequence, pipeline);
+    this->strand = result.strand;
+    this->artefact = result.artefact;
 }
 
 /*
@@ -50,6 +55,11 @@ Record::classify(Pipeline& pipeline)
 std::string
 Record::printFq()
 {
+    // first, write down if it's an artefact
+    if (this->artefact != artefact::none) {
+        this->identifier += " artefact=" + artefact::getName(this->artefact) + " ";
+    }
+
     // first, add on the strand tag
     this->identifier += " strand=";
     this->identifier.push_back(this->strand);

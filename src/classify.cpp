@@ -7,6 +7,9 @@
 #include "utilities.h"
 #include "classify.h"
 #include "json.hpp"
+#include "artefact.h"
+#include "strand.h"
+#include "Record.h"
 
 /*
     generates the default pipeline,
@@ -25,7 +28,7 @@ makeDefaultPipeline()
     );
     pipeline.push_back(poly);
     Method primer = std::bind(classifyPrimer, 
-        _1, 6, "TTTCTGTTGGTGCTGATATTGCTGGG", "ACTTGCCTGTCGCTCTATCTTC"
+        _1, 6, "TTTCTGTTGGTGCTGATATTGCTGGG", "ACTTGCCTGTCGCTCTATCTTC", false
     );
     pipeline.push_back(primer);
 
@@ -36,65 +39,81 @@ makeDefaultPipeline()
     classifies whether a sequence is forward or reverse,
     using a given pipeline
 */
-Strand
+Result
 classifyPipeline(std::string& seq, Pipeline& pipeline)
 {
-    Strand
-    strand = unknownStrand;
+    Result
+    result = {strand::unknown, artefact::none};
 
     for (const auto & classify : pipeline) {
         // try this classifier
-        strand = classify(seq);
+        result = classify(seq);
 
         // if we've successfully classified it, end loop
-        if (strand != unknownStrand) {
+        if (result.strand != strand::unknown && result.artefact == artefact::none) {
             break;
         }
     }
 
-    return strand;
+    return result;
 }
 
 /*
     classifies a sequence based on the presence of a PolyA or PolyT tail
     works around 99% of the time
 */
-Strand
+Result
 classifyPoly(std::string& seq, int tailLength, int searchSize)
 {
+    strand::Strand
+    strand = strand::unknown;
+
     bool polyATail = hasPolyATail(seq, tailLength, searchSize);
     bool polyTTail = hasPolyTTail(seq, tailLength, searchSize);
 
     if (polyATail && !polyTTail) {
-        return forwardStrand;
+        strand = strand::forward;
     } else if (!polyATail && polyTTail) {
-        return reverseStrand;
+        strand = strand::reverse;
     } else if ((polyATail && polyTTail) || (!polyATail && !polyTTail)) {
-        return unknownStrand;
+        strand = strand::unknown;
     }
 
     // should never get here
-    return unknownStrand;
+    return {strand, artefact::none};
 }
 
 /*
-    classifies a sequence by looking for the SSP or VNP near the start,
+    classifies a sequence by looking for the TSO or VNP near the start,
     using a given an edit distance
 */
-Strand
-classifyPrimer(std::string& seq, int editDist, std::string ssp, std::string vnp)
+Result
+classifyPrimer(
+    std::string& seq, int editDist, 
+    std::string tso, std::string vnp, 
+    bool reportArtefacts
+)
 {   
-    bool SSP = hasSSP(seq, editDist, ssp);
+    strand::Strand
+    strand = strand::unknown;
+
+    bool TSO = hasTSO(seq, editDist, tso);
     bool VNP = hasVNP(seq, editDist, vnp);
 
-    if (SSP && !VNP) {
-        return forwardStrand;
-    } else if (!SSP && VNP) {
-        return reverseStrand;
-    } else if ((!SSP && !VNP) || (SSP && VNP)) {
-        return unknownStrand;
+    // do artefact detection if necessary
+    artefact::Artefact
+    artefact = reportArtefacts ? 
+        artefact::classifyArtefact(seq, editDist, tso, vnp, TSO, VNP) : 
+        artefact::none;
+
+    if (TSO && !VNP) {
+        strand = strand::forward;
+    } else if (!TSO && VNP) {
+        strand = strand::reverse;
+    } else if ((!TSO && !VNP) || (TSO && VNP)) {
+        strand = strand::unknown;
     }
 
     // should never get here
-    return unknownStrand;
+    return {strand, artefact};
 }

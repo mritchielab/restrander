@@ -98,6 +98,7 @@ main(int argc, char ** argv)
         // update the stats
         stats['r']++;
         stats[record.strand]++;
+        stats[record.artefact]++;
     }
 
     if (!silent) {
@@ -109,7 +110,9 @@ main(int argc, char ** argv)
         << "\tTotal reads :\t" << stats['r'] << "\n"
         << "\t+ reads     :\t" << stats['+'] << "\n"
         << "\t- reads     :\t" << stats['-'] << "\n"
-        << "\t? reads     :\t" << stats['?'] << "\n";
+        << "\t? reads     :\t" << stats['?'] << "\n"
+        << "\tt reads     :\t" << stats['t'] << "\n"
+        << "\tv reads     :\t" << stats['v'] << "\n";
     
     // close the files
     reader.close();

@@ -119,16 +119,16 @@ hasPolyTTail(std::string& seq, int polyTThreshold, int countThreshold)
 bool
 hasVNP(std::string& seq, int thresholdDist, std::string VNP, int searchSize)
 {
-    return containsMatch(seq, VNP, 200, thresholdDist);
+    return containsMatch(seq, VNP, searchSize, thresholdDist);
 }
 
 
 /*
-    checks whether a seq has an SSP in the first searchSize characters, 
+    checks whether a seq has an TSO in the first searchSize characters, 
     with some edit distance tolerance
 */
 bool
-hasSSP(std::string& seq, int thresholdDist, std::string SSP, int searchSize)
+hasTSO(std::string& seq, int thresholdDist, std::string TSO, int searchSize)
 {
-    return containsMatch(seq, SSP, 200, thresholdDist);
+    return containsMatch(seq, TSO, searchSize, thresholdDist);
 }

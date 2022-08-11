@@ -1,0 +1,18 @@
+{
+    "name": "10X 5'",
+    "description": "Uses 10X 5' primers.",
+    "pipeline": [
+        {
+            "type": "poly",
+            "tail-length": 12,
+            "search-size": 200
+        },
+        {
+            "type": "primer",
+            "tso": "CTACACGACGCTCTTCCGATCT",
+            "vnp": "AAGCAGTGGTATCAACGCAGAGTAC",
+            "edit-distance": 6,
+            "report-artifacts": true
+        }
+    ]
+}

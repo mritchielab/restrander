@@ -22,11 +22,11 @@ Optionally, you can provide a specific configuration file:
 
 Each forward read is assumed to have a particular form:
 
-``` handle - barcode - SSP - mRNA - polyA - VNP_reverse_complement - barcode_reverse_complement - handle_reverse complement ```
+``` handle - barcode - TSO - mRNA - polyA - VNP_reverse_complement - barcode_reverse_complement - handle_reverse complement ```
 
 While a reverse read takes the form:
 
-``` handle - barcode - VNP - polyT - mRNA_reverse_complement - SSP_reverse_complement - barcode_reverse_complement - handle_reverse complement ```
+``` handle - barcode - VNP - polyT - mRNA_reverse_complement - TSO_reverse_complement - barcode_reverse_complement - handle_reverse complement ```
 
 Because of these differences, there are a few methods for classifying read direction:
 
@@ -43,24 +43,24 @@ A naive method of looking through each sequence for a PolyA tail of consecutive 
 
 The drawback of this method is that often sequences include native PolyA/PolyT tails, leading to ambiguous reads.
 
-## SSP/VNP Classification
+## TSO/VNP Classification
 
-A method of searching for the SSP and VNP near the start of the read to classify it. Often the SSP and VNP are not perfectly present in the read, allowing for some edit distance.
+A method of searching for the TSO and VNP near the start of the read to classify it. Often the TSO and VNP are not perfectly present in the read, allowing for some edit distance.
 
-| SSP found in sequence | VNP found in sequence | Classification  |
+| TSO found in sequence | VNP found in sequence | Classification  |
 | --------------------- | --------------------- | --------------- |
 | Yes                   | No                    | Forward         |
 | No                    | Yes                   | Reverse         |
 | Yes                   | Yes                   | Ambiguous       |
 | No                    | No                    | Ambiguous       |
 
-This method takes longer than PolyA/PolyT classification. Additionally, sometimes the SSP and VNP are so wrong in the sequence that we cannot identify them, leading to ambiguous reads.
+This method takes longer than PolyA/PolyT classification. Additionally, sometimes the TSO and VNP are so wrong in the sequence that we cannot identify them, leading to ambiguous reads.
 
 # Configurations
 
 ## PCB109
 
-The default configuration. First applies PolyA/PolyT classification, then looks for the standard SSP and VNP used in PCB109 chemistry.
+The default configuration. First applies PolyA/PolyT classification, then looks for the standard TSO/SSP and VNP used in PCB109 chemistry.
 
 ## Trimmed
 

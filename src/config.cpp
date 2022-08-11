@@ -61,7 +61,7 @@ namespace config {
                 pipeline.push_back(function);
             } else if (method["type"] == "primer") {
                 Method function = std::bind(classifyPrimer, 
-                    _1, method["edit-distance"], method["ssp"], method["vnp"]
+                    _1, method["edit-distance"], method["tso"], method["vnp"], method["report-artefacts"]
                 );
                 pipeline.push_back(function);
             }
