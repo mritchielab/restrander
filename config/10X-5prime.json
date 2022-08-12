@@ -10,7 +10,7 @@
         {
             "type": "primer",
             "tso": "CTACACGACGCTCTTCCGATCT",
-            "rt": "AAGCAGTGGTATCAACGCAGAGTAC",
+            "rtp": "AAGCAGTGGTATCAACGCAGAGTAC",
             "edit-distance": 6,
             "report-artefacts": true
         }

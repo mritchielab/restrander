@@ -84,13 +84,13 @@ classifyPoly(std::string& seq, int tailLength, int searchSize)
 }
 
 /*
-    classifies a sequence by looking for the TSO or RT near the start,
+    classifies a sequence by looking for the TSO or RTP near the start,
     using a given an edit distance
 */
 Result
 classifyPrimer(
     std::string& seq, int editDist, 
-    std::string tso, std::string rt, 
+    std::string tso, std::string rtp, 
     bool reportArtefacts
 )
 {   
@@ -98,19 +98,19 @@ classifyPrimer(
     strand = strand::unknown;
 
     bool TSO = hasTSO(seq, editDist, tso);
-    bool RT = hasRT(seq, editDist, rt);
+    bool RTP = hasRTP(seq, editDist, rtp);
 
     // do artefact detection if necessary
     artefact::Artefact
     artefact = reportArtefacts ? 
-        artefact::classifyArtefact(seq, editDist, tso, rt, TSO, RT) : 
+        artefact::classifyArtefact(seq, editDist, tso, rtp, TSO, RTP) : 
         artefact::none;
 
-    if (TSO && !RT) {
+    if (TSO && !RTP) {
         strand = strand::forward;
-    } else if (!TSO && RT) {
+    } else if (!TSO && RTP) {
         strand = strand::reverse;
-    } else if ((!TSO && !RT) || (TSO && RT)) {
+    } else if ((!TSO && !RTP) || (TSO && RTP)) {
         strand = strand::unknown;
     }
 

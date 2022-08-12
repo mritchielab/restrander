@@ -5,16 +5,17 @@
 
 /* namespace for anything related to artefacts */
 namespace artefact {
+
     using Artefact = char;
     const Artefact none = ' ';
     const Artefact tsotso = 't';
-    const Artefact rtrt = 'v';
+    const Artefact rtprtp = 'v';
 
     Artefact
     classifyArtefact(
         std::string& seq, int editDistance, 
-        std::string& tso, std::string& rt, 
-        bool TSO, bool RT
+        std::string& tso, std::string& rtp, 
+        bool TSO, bool RTP
     );
 
     std::string

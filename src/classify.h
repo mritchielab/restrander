@@ -30,6 +30,6 @@ Result
 classifyPoly(std::string& seq, int tailLength, int searchSize);
 
 Result
-classifyPrimer(std::string& seq, int editDistance, std::string tso, std::string rt, bool classifyArtefacts);
+classifyPrimer(std::string& seq, int editDistance, std::string tso, std::string rtp, bool classifyArtefacts);
 
 #endif

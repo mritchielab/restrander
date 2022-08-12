@@ -19,7 +19,7 @@ bool
 hasPolyTTail(std::string& seq, int polyTThreshold=12, int countThreshold=200);
 
 bool
-hasRT(std::string& seq, int thresholdDist=3, std::string RT="ACTTGCCTGTCGCTCTATCTTC", int searchSize=200);
+hasRTP(std::string& seq, int thresholdDist=3, std::string RTP="ACTTGCCTGTCGCTCTATCTTC", int searchSize=200);
 
 bool
 hasTSO(std::string& seq, int thresholdDist=3, std::string TSO="TTTCTGTTGGTGCTGATATTGCTGGG", int searchSize=200);

@@ -113,13 +113,13 @@ hasPolyTTail(std::string& seq, int polyTThreshold, int countThreshold)
 }
 
 /*
-    checks whether a seq has a RT in the first searchSize characters, 
+    checks whether a seq has a RTP in the first searchSize characters, 
     with some edit distance tolerance
 */
 bool
-hasRT(std::string& seq, int thresholdDist, std::string RT, int searchSize)
+hasRTP(std::string& seq, int thresholdDist, std::string RTP, int searchSize)
 {
-    return containsMatch(seq, RT, searchSize, thresholdDist);
+    return containsMatch(seq, RTP, searchSize, thresholdDist);
 }
 
 

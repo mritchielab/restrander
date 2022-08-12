@@ -13,26 +13,26 @@ namespace artefact
     Artefact
     classifyArtefact(
         std::string& seq, int editDistance,
-        std::string& tso, std::string& rt,
-        bool TSO, bool RT
+        std::string& tso, std::string& rtp,
+        bool TSO, bool RTP
     )
     {
         // look for the reverse complement primers
         bool TSOrevComp = hasTSO(seq, editDistance, reverseComplement(tso), 2000);
-        bool RTrevComp = hasRT(seq, editDistance, reverseComplement(rt), 2000);
+        bool RTPrevComp = hasRTP(seq, editDistance, reverseComplement(rtp), 2000);
 
         // classify based on this
         if (TSO && TSOrevComp) {
             return tsotso;
-        } else if (RT && RTrevComp) {
-            return rtrt;
+        } else if (RTP && RTPrevComp) {
+            return rtprtp;
         } else {
             return none;
         }
     }
 
     /*
-        converts an Artefact to its string meaning
+        converts an Artefact to its string name
     */
     std::string
     getName(Artefact artefact)
@@ -41,7 +41,7 @@ namespace artefact
         names;
         
         names['t'] = "TSO-TSO";
-        names['v'] = "RT-RT";
+        names['v'] = "RTP-RTP";
 
         return names[artefact];
     }

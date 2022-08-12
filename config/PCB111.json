@@ -1,6 +1,6 @@
 {
-    "name": "PCB109",
-    "description": "The default configuration. First applies PolyA/PolyT classification, then looks for the standard TSO (SSP) and RTP (VNP) used in PCB109 chemistry.",
+    "name": "PCB111",
+    "description": "Looks for the standard TSO (SSP) and RTP (VNP) used in PCB109 chemistry.",
     "pipeline": [
         {
             "type": "poly",
@@ -10,7 +10,7 @@
         {
             "type": "primer",
             "tso": "TTTCTGTTGGTGCTGATATTGCTGGG",
-            "rtp": "ACTTGCCTGTCGCTCTATCTTCTTTTTTTTTT",
+            "rtp": "ACTTGCCTGTCGCTCTATCTTCT",
             "edit-distance": 6,
             "report-artefacts": true
         }
