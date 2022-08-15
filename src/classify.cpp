@@ -97,6 +97,7 @@ classifyPrimer(
     strand::Strand
     strand = strand::unknown;
 
+    // first find the TSO and RTP
     bool TSO = hasTSO(seq, editDist, tso);
     bool RTP = hasRTP(seq, editDist, rtp);
 
@@ -105,6 +106,11 @@ classifyPrimer(
     artefact = reportArtefacts ? 
         artefact::classifyArtefact(seq, editDist, tso, rtp, TSO, RTP) : 
         artefact::none;
+    
+    // if we've found an artefact, just consider the read unknown
+    if (artefact != artefact::none) {
+        return {strand, artefact};
+    }
 
     if (TSO && !RTP) {
         strand = strand::forward;

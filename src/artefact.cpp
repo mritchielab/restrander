@@ -18,8 +18,9 @@ namespace artefact
     )
     {
         // look for the reverse complement primers
-        bool TSOrevComp = hasTSO(seq, editDistance, reverseComplement(tso), 2000);
-        bool RTPrevComp = hasRTP(seq, editDistance, reverseComplement(rtp), 2000);
+        // (for now, be lazy - only look for the reverse primer that will prove it's an artefact)
+        bool TSOrevComp = TSO ? hasTSO(seq, editDistance, reverseComplement(tso), 2000) : false;
+        bool RTPrevComp = RTP ? hasRTP(seq, editDistance, reverseComplement(rtp), 2000) : false;
 
         // classify based on this
         if (TSO && TSOrevComp) {

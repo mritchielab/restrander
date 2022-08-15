@@ -60,8 +60,13 @@ namespace config {
                 );
                 pipeline.push_back(function);
             } else if (method["type"] == "primer") {
+
+                // optional argument
+                bool report_artefacts = 
+                    (method.contains("report-artefacts") ? (bool) method["report-artefacts"] : false);
+                
                 Method function = std::bind(classifyPrimer, 
-                    _1, method["edit-distance"], method["tso"], method["rtp"], method["report-artefacts"]
+                    _1, method["edit-distance"], method["tso"], method["rtp"], report_artefacts
                 );
                 pipeline.push_back(function);
             }
