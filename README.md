@@ -2,7 +2,7 @@
 
 A program for restranding Fastq files.
 
-Parses an input `.fq` file, classifying each record as either forward `+`, reverse `-` or ambiguous `?`, outputting to a new `.fq` with the classification of each read included in a `strand` tag. For reverse reads, the reverse-complement of the original sequence is recorded, and quality scores are also reversed. Also works on gzipped `.gz` files.
+Parses an input `.fq`, classifying each record as either forward `+`, reverse `-` or unknown `?`, outputting to a new `.fq` with the classification of each read included in a `strand` tag. For reverse reads, the reverse-complement of the original sequence is recorded, and quality scores are also reversed. Also works on gzipped `.gz` files.
 
 # Usage instructions
 
@@ -20,7 +20,7 @@ Optionally, you can provide a specific configuration file:
 
 # How it works
 
-Each forward read is assumed to have a particular form:
+Each forward read is assumed to have the particular form:
 
 ``` handle - barcode - TSO - mRNA - polyA - RTP_reverse_complement - barcode_reverse_complement - handle_reverse complement ```
 
@@ -41,7 +41,7 @@ A naive method of looking through each sequence for a PolyA tail of consecutive 
 | Yes                 | Yes                 | Ambiguous       |
 | No                  | No                  | Ambiguous       |
 
-The drawback of this method is that often sequences include native PolyA/PolyT tails, leading to ambiguous reads.
+Some sequences include native PolyA/PolyT tails, leading to ambiguous reads.
 
 ## TSO/RTP Classification
 
