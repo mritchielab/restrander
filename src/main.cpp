@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <optional>
 
 #include "utilities.h"
 #include "Reader.h"
@@ -55,36 +56,27 @@ main(int argc, char ** argv)
         return 1;
     }
 
-    std::string
-    configFilename = argv[3];
-
-    // then, check if the config specifies running in "silent" mode
-    bool silent = false;
-    if (argc == 4) {
-        silent = config::isSilent(configFilename);
-    }
+    // read in the configuration file, if one is given
+    auto config = argc == 4 ? config::parseConfig(argv[3]) : config::makeDefaultConfig();
 
     // open the files, and check their types
     Reader reader (argv[1]);
     Writer writer (argv[2]);
-    // generate the pipeline from config
-    Pipeline pipeline = makeDefaultPipeline();
-    if (argc == 4) {
-        pipeline = config::makePipeline(argv[3]);
+    std::optional<Writer> unknowns;
+    if (config.excludeUnknowns) {
+        auto unknownsFilename = "unknowns-" + std::string(argv[2]);
+        unknowns = Writer (unknownsFilename);
     }
 
-    // get the name of the current configuration
-    std::string name = "PCB109";
-    if (argc == 4) {
-        name = config::getName(argv[3]);
-    }
+
+    // generate the pipeline from config
 
     // print out some header information
-    if (!silent) {
-        printHeader(argv[1], argv[2], name);
+    if (!config.silent) {
+        printHeader(argv[1], argv[2], config.name);
     }
 
-    if (!silent) {
+    if (!config.silent) {
         std::cout << C_GREEN << "Started restranding...\n" << C_DEFAULT;
     }
     
@@ -97,7 +89,7 @@ main(int argc, char ** argv)
         // try reading a record
         try {
             record = reader.read();
-            record.classify(pipeline);
+            record.classify(config.pipeline);
         }
         // or, if we're out of records, break the loop
         catch (const std::invalid_argument &e) {
@@ -106,20 +98,25 @@ main(int argc, char ** argv)
 
         // keep track of the record we're up to
         recordNum += 1;
-        if (!silent && recordNum % 100000 == 0 && recordNum > 0) {
+        if (!config.silent && recordNum % 100000 == 0 && recordNum > 0) {
             // print out a message every 100000 records
             std::cout << "\tUp to record " << recordNum << "...\n";
         }
 
         // write down the record
-        writer.write(record);
+        if (config.excludeUnknowns && record.strand == strand::unknown) {
+            unknowns.value().write(record);
+        } else {
+            writer.write(record);
+        }
+
         // update the stats
         stats.total++;
         stats.strand.stats[record.strand]++;
         stats.artefact.stats[record.artefact]++;
     }
 
-    if (!silent) {
+    if (!config.silent) {
         std::cout << C_GREEN << "Finished restranding!\n" << C_DEFAULT;
     }
 
@@ -135,4 +132,6 @@ main(int argc, char ** argv)
     // close the files
     reader.close();
     writer.close();
+    if (config.excludeUnknowns)
+        unknowns.value().close();
 }

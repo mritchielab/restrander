@@ -28,7 +28,7 @@ makeDefaultPipeline()
     );
     pipeline.push_back(poly);
     Method primer = std::bind(classifyPrimer, 
-        _1, 6, "TTTCTGTTGGTGCTGATATTGCTGGG", "ACTTGCCTGTCGCTCTATCTTC", false
+        _1, 6, "TTTCTGTTGGTGCTGATATTGCTGGG", "ACTTGCCTGTCGCTCTATCTTC", true
     );
     pipeline.push_back(primer);
 

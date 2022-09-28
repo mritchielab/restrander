@@ -8,35 +8,49 @@
 #include "classify.h"
 
 namespace config {
+    
     /*
-        reads the config file, determines whether the process is silent and returns it
+        builds the default configuration for restrander
+        (hardcoded in, rather than by loading PCB109.json, 
+        in case for some reason that file gets broken in someone's system)
     */
-    bool
-    isSilent(std::string config)
+    struct Config
+    makeDefaultConfig()
     {
-        std::ifstream
-        configFile (config);
-        
-        try {
-            return nlohmann::json::parse(configFile)["silent"];
-        } catch (nlohmann::detail::type_error const&) {
-            return false;
-        }
+        struct Config config = {};
+        config.name = "PCB109";
+        config.description = 
+            "The default configuration. \
+            First applies PolyA/PolyT classification, \
+            then looks for the standard TSO (SSP) and RTP (VNP) used in PCB109 chemistry.";
+        config.pipeline = makeDefaultPipeline();
+        config.silent = false;
+        config.excludeUnknowns = true;
+
+        return config;
     }
 
-    /*
-        reads the config file, gets the name and returns it
-    */
-    std::string
-    getName(std::string config)
+    struct Config
+    parseConfig(std::string configFilename)
     {
+        // open the file
         std::ifstream
-        configFile (config);
+        configFile (configFilename);
+
+        // make a new struct
+        struct Config config = {};
         
+        // parse it
         try {
-            return nlohmann::json::parse(configFile)["name"];
+            config.name = nlohmann::json::parse(configFile)["name"];
+            config.description = nlohmann::json::parse(configFile)["description"];
+            config.pipeline = makePipeline(nlohmann::json::parse(configFile)["pipeline"]);
+            config.silent = nlohmann::json::parse(configFile)["silent"];
+            config.excludeUnknowns = nlohmann::json::parse(configFile)["exclude-unknowns"];
         } catch (nlohmann::detail::type_error const&) {
-            return "";
+            // catch any errors in file parsing
+            std::cout << "Error found in config file! Reverting to default configuration.";
+            return makeDefaultConfig();
         }
     }
 
@@ -45,15 +59,9 @@ namespace config {
         of operations to perform on each read
     */
     Pipeline
-    makePipeline(std::string config)
+    makePipeline(nlohmann::json pipelineJson)
     {
         using namespace std::placeholders;
-
-        std::ifstream
-        configFile (config);
-
-        // extract the method section from the config
-        auto pipelineJson = nlohmann::json::parse(configFile)["pipeline"];
 
         Pipeline
         pipeline = {};

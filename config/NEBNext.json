@@ -14,5 +14,7 @@
             "edit-distance": 6,
             "report-artefacts": false 
         }
-    ]
+    ],
+    "silent": false,
+    "exclude-unknowns": true
 }

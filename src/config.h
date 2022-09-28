@@ -5,14 +5,23 @@
 #include "classify.h"
 
 namespace config {
-    bool
-    isSilent(std::string config);
+    struct Config 
+    {
+        std::string name;
+        std::string description;
+        Pipeline    pipeline;
+        bool        silent;
+        bool        excludeUnknowns;
+    };
 
-    std::string
-    getName(std::string config);
+    struct Config
+    makeDefaultConfig();
+
+    struct Config
+    parseConfig(std::string configFilename);
     
     Pipeline
-    makePipeline(std::string config);
+    makePipeline(nlohmann::json pipelineJson);
 }    
 
 

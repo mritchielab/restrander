@@ -7,5 +7,7 @@
             "tail-length": 12,
             "search-size": 200
         }
-    ]
+    ],
+    "silent": false,
+    "exclude-unknowns": true
 }
