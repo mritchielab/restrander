@@ -8,6 +8,9 @@
 #include "classify.h"
 
 namespace config {
+    /*
+        reads the config file, determines whether the process is silent and returns it
+    */
     bool
     isSilent(std::string config)
     {
@@ -16,11 +19,14 @@ namespace config {
         
         try {
             return nlohmann::json::parse(configFile)["silent"];
-        } catch (nlohmann::detail::type_error) {
+        } catch (nlohmann::detail::type_error const&) {
             return false;
         }
     }
 
+    /*
+        reads the config file, gets the name and returns it
+    */
     std::string
     getName(std::string config)
     {
@@ -29,7 +35,7 @@ namespace config {
         
         try {
             return nlohmann::json::parse(configFile)["name"];
-        } catch (nlohmann::detail::type_error) {
+        } catch (nlohmann::detail::type_error const&) {
             return "";
         }
     }
@@ -53,6 +59,7 @@ namespace config {
         pipeline = {};
         for (const auto & method : pipelineJson) {
             try {
+
             if (method["type"] == "poly") {
                 // here we use bind to partially apply a function
                 Method function = std::bind(classifyPoly, 
@@ -70,7 +77,8 @@ namespace config {
                 );
                 pipeline.push_back(function);
             }
-            } catch (nlohmann::detail::type_error) {
+
+            } catch (nlohmann::detail::type_error const&) {
                 std::cout << "Error in configuration file!\nUsing default PCB109 configuration.\n";
                 return makeDefaultPipeline();
             }

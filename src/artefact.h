@@ -5,7 +5,6 @@
 
 /* namespace for anything related to artefacts */
 namespace artefact {
-
     using Artefact = char;
     const Artefact none = ' ';
     const Artefact tsotso = 't';

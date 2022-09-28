@@ -6,6 +6,7 @@
 #include "Reader.h"
 #include "Writer.h"
 #include "config.h"
+#include "stats.h"
 
 #define C_MAGENTA   "\x1B[35m"
 #define C_DEFAULT   "\x1B[0m"
@@ -13,6 +14,10 @@
 #define C_RED       "\x1B[31m"
 #define C_YELLOW    "\x1B[33m"
 
+/*
+    checks whether restrander has been run with a valid number of arguments,
+    prints out some info if necessary
+*/
 bool
 validArgumentCount(int argc)
 {
@@ -29,6 +34,19 @@ validArgumentCount(int argc)
     return true;
 }
 
+/*
+    prints out some header information
+*/
+void
+printHeader(std::string inputFilename, std::string outputFilename, std::string name)
+{
+    std::cout << C_GREEN << "Restrander initialised.\n" << C_DEFAULT
+        << "\tInput file  :\t" << inputFilename << "\n"
+        << "\tOutput file :\t" << outputFilename << "\n"
+        << "\tPipeline    :\t" << name << "\n";
+}
+
+
 int
 main(int argc, char ** argv)
 {
@@ -37,10 +55,13 @@ main(int argc, char ** argv)
         return 1;
     }
 
+    std::string
+    configFilename = argv[3];
+
     // then, check if the config specifies running in "silent" mode
     bool silent = false;
     if (argc == 4) {
-        silent = config::isSilent(argv[3]);
+        silent = config::isSilent(configFilename);
     }
 
     // open the files, and check their types
@@ -60,10 +81,7 @@ main(int argc, char ** argv)
 
     // print out some header information
     if (!silent) {
-        std::cout << C_GREEN << "Restrander initialised.\n" << C_DEFAULT
-            << "\tInput file  :\t" << argv[1] << "\n"
-            << "\tOutput file :\t" << argv[2] << "\n"
-            << "\tPipeline    :\t" << name << "\n";
+        printHeader(argv[1], argv[2], name);
     }
 
     if (!silent) {
@@ -71,7 +89,7 @@ main(int argc, char ** argv)
     }
     
     // initialise stats and record
-    Stats stats = {};
+    stats::Stats stats = {0, {{}}, {{}}};
     Record record = Record();
     int recordNum = 0;
 
@@ -96,9 +114,9 @@ main(int argc, char ** argv)
         // write down the record
         writer.write(record);
         // update the stats
-        stats['r']++;
-        stats[record.strand]++;
-        stats[record.artefact]++;
+        stats.total++;
+        stats.strand.stats[record.strand]++;
+        stats.artefact.stats[record.artefact]++;
     }
 
     if (!silent) {
@@ -107,12 +125,12 @@ main(int argc, char ** argv)
 
     // print out the stats
     std::cout
-        << "\tTotal reads :\t" << stats['r'] << "\n"
-        << "\t+ reads     :\t" << stats['+'] << "\n"
-        << "\t- reads     :\t" << stats['-'] << "\n"
-        << "\t? reads     :\t" << stats['?'] << "\n"
-        << "\tt reads     :\t" << stats['t'] << "\n"
-        << "\tv reads     :\t" << stats['v'] << "\n";
+        << "\tTotal reads :\t" << stats.total << "\n"
+        << "\t+ reads     :\t" << stats.strand.stats[strand::forward] << "\n"
+        << "\t- reads     :\t" << stats.strand.stats[strand::reverse] << "\n"
+        << "\t? reads     :\t" << stats.strand.stats[strand::unknown] << "\n"
+        << "\tt reads     :\t" << stats.artefact.stats[artefact::tsotso] << "\n"
+        << "\tv reads     :\t" << stats.artefact.stats[artefact::rtprtp] << "\n";
     
     // close the files
     reader.close();

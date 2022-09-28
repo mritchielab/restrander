@@ -9,6 +9,7 @@
 #include <zlib.h>
 
 #include "Record.h"
+#include "stats.h"
 
 // using File = std::variant<std::ifstream, gzFile>;
 
@@ -20,7 +21,6 @@ struct Files
 
 class Reader;
 
-using Stats = std::unordered_map<char, int>;
 using ReadFunc = std::function<Record(Reader&)>;
 using ReadLineFunc = std::function<std::string(Reader&)>;
 using ReaderCloseFunc = std::function<void(Reader&)>;
@@ -31,7 +31,7 @@ class Reader
         std::ifstream file;
         gzFile gzippedFile;
 
-        Stats stats;
+        stats::Stats stats;
         ReadFunc readFunc;
         ReadLineFunc readLineFunc;
         ReaderCloseFunc closeFunc;
@@ -60,7 +60,7 @@ class Reader
         Record 
         read();
 
-        Stats
+        stats::Stats
         getStats();
 
         void

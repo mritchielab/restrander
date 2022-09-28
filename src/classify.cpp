@@ -79,7 +79,6 @@ classifyPoly(std::string& seq, int tailLength, int searchSize)
         strand = strand::unknown;
     }
 
-    // should never get here
     return {strand, artefact::none};
 }
 
@@ -120,6 +119,5 @@ classifyPrimer(
         strand = strand::unknown;
     }
 
-    // should never get here
     return {strand, artefact};
 }
