@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <functional>
+#include <optional>
 #include <zlib.h>
 
 #include "Record.h"
@@ -18,6 +19,9 @@ class Writer
     private:
         std::ofstream file;
         gzFile gzippedFile;
+
+        bool excludeUnknowns;
+        std::unique_ptr<Writer> unknowns = {};
 
         WriteFunc writeFunc;
         WriteLineFunc writeLineFunc;
@@ -41,8 +45,11 @@ class Writer
         void
         closeGzipped();
 
+        std::string
+        makeUnknown(std::string &filename);
+
     public:
-        Writer(std::string filename);
+        Writer(std::string filename, bool unknown=false);
 
         void
         write(Record& record);

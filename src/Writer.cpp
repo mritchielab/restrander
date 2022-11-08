@@ -3,8 +3,15 @@
 
 #include "Writer.h"
 
-Writer::Writer (std::string filename)
+Writer::Writer (std::string filename, bool excludeUnknowns)
 {
+    // check if this will be the file to print unknowns into
+    this->excludeUnknowns = excludeUnknowns;
+    if (excludeUnknowns) {
+        auto unknownFilename = makeUnknown(filename);
+        unknowns = std::make_unique<Writer>(unknownFilename, false);
+    }
+
     // get the file extension
     std::string extension = filename.substr(filename.find_last_of(".") + 1);
     if (extension == "gz") {
@@ -32,6 +39,18 @@ Writer::Writer (std::string filename)
     this->writeFunc = validExtensions[extension];
 }
 
+std::string
+Writer::makeUnknown(std::string &filename)
+{
+    auto postfix = "-unknowns";
+
+    // handle filenames without extensions
+    if (filename.find_first_of(".") > filename.size())
+        return filename + postfix;
+
+    return filename.substr(0, filename.find_first_of(".")) + postfix + filename.substr(filename.find_first_of("."));
+}
+
 void
 Writer::writeLine(std::string& line)
 {
@@ -53,6 +72,9 @@ Writer::writeLineGzipped(std::string& line)
 void
 Writer::write (Record& record)
 {
+    if (excludeUnknowns && record.strand == strand::unknown)
+        unknowns->write(record);
+
     (this->writeFunc)(*this, record);
 }
 

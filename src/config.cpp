@@ -16,42 +16,55 @@ namespace config {
     */
     struct Config
     makeDefaultConfig()
-    {
-        struct Config config = {};
-        config.name = "PCB109";
-        config.description = 
+    {        
+        return {
+            "PCB109",
             "The default configuration. \
             First applies PolyA/PolyT classification, \
-            then looks for the standard TSO (SSP) and RTP (VNP) used in PCB109 chemistry.";
-        config.pipeline = makeDefaultPipeline();
-        config.silent = false;
-        config.excludeUnknowns = true;
-
-        return config;
+            then looks for the standard TSO (SSP) and RTP (VNP) used in PCB109 chemistry.",
+            makeDefaultPipeline(),
+            false,
+            true
+        };
     }
 
     struct Config
     parseConfig(std::string configFilename)
     {
+        std::cout << "started parseconfig";
         // open the file
         std::ifstream
         configFile (configFilename);
+        std::cout << "openeed filefirst;";
 
         // make a new struct
         struct Config config = {};
-        
+        auto configJson = nlohmann::json::parse(configFile);
+        std::cout << configJson;
+        std::cout << "openeed file;";
         // parse it
         try {
-            config.name = nlohmann::json::parse(configFile)["name"];
-            config.description = nlohmann::json::parse(configFile)["description"];
-            config.pipeline = makePipeline(nlohmann::json::parse(configFile)["pipeline"]);
-            config.silent = nlohmann::json::parse(configFile)["silent"];
-            config.excludeUnknowns = nlohmann::json::parse(configFile)["exclude-unknowns"];
+            std::cout << "loading name,";
+            config.name = configJson["name"];
+            std::cout << "desc,";
+            config.description = configJson["description"];
+            std::cout << "pipeline,";
+            auto pipelineConfig = configJson["pipeline"];
+            config.pipeline = makePipeline(pipelineConfig);
+            std::cout << "silent,";
+            config.silent = configJson["silent"];
+            std::cout << "unknowns,";
+            config.excludeUnknowns = configJson["exclude-unknowns"];
         } catch (nlohmann::detail::type_error const&) {
             // catch any errors in file parsing
-            std::cout << "Error found in config file! Reverting to default configuration.";
+            std::cout << "Error found in config file!\nReverting to default configuration.";
+            return makeDefaultConfig();
+        } catch (nlohmann::detail::parse_error const&) {
+            std::cout << "lmao parse error\n";
             return makeDefaultConfig();
         }
+
+        return config;
     }
 
     /*

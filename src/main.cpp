@@ -61,15 +61,7 @@ main(int argc, char ** argv)
 
     // open the files, and check their types
     Reader reader (argv[1]);
-    Writer writer (argv[2]);
-    std::optional<Writer> unknowns;
-    if (config.excludeUnknowns) {
-        auto unknownsFilename = "unknowns-" + std::string(argv[2]);
-        unknowns = Writer (unknownsFilename);
-    }
-
-
-    // generate the pipeline from config
+    Writer writer (argv[2], config.excludeUnknowns);
 
     // print out some header information
     if (!config.silent) {
@@ -104,11 +96,7 @@ main(int argc, char ** argv)
         }
 
         // write down the record
-        if (config.excludeUnknowns && record.strand == strand::unknown) {
-            unknowns.value().write(record);
-        } else {
-            writer.write(record);
-        }
+        writer.write(record);
 
         // update the stats
         stats.total++;
@@ -132,6 +120,4 @@ main(int argc, char ** argv)
     // close the files
     reader.close();
     writer.close();
-    if (config.excludeUnknowns)
-        unknowns.value().close();
 }
