@@ -12,15 +12,15 @@ namespace artefact
     */
     Artefact
     classifyArtefact(
-        std::string& seq, int editDistance,
+        std::string& seq, const double errorRate,
         std::string& tso, std::string& rtp,
         bool TSO, bool RTP
     )
     {
         // look for the reverse complement primers
         // (for now, be lazy - only look for the reverse primer that will prove it's an artefact)
-        bool TSOrevComp = TSO ? hasTSO(seq, editDistance, reverseComplement(tso), 2000) : false;
-        bool RTPrevComp = RTP ? hasRTP(seq, editDistance, reverseComplement(rtp), 2000) : false;
+        bool TSOrevComp = TSO ? hasTSO(seq, getEditDist(errorRate, tso), reverseComplement(tso), 2000) : false;
+        bool RTPrevComp = RTP ? hasRTP(seq, getEditDist(errorRate, rtp), reverseComplement(rtp), 2000) : false;
 
         // classify based on this
         if (TSO && TSOrevComp) {
@@ -41,8 +41,9 @@ namespace artefact
         std::unordered_map<Artefact, std::string>
         names;
         
-        names['t'] = "TSO-TSO";
-        names['v'] = "RTP-RTP";
+        names[tsotso] = "TSO-TSO";
+        names[rtprtp] = "RTP-RTP";
+        names[none]   = "no artefact";
 
         return names[artefact];
     }

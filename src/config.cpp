@@ -24,55 +24,50 @@ namespace config {
             then looks for the standard TSO (SSP) and RTP (VNP) used in PCB109 chemistry.",
             makeDefaultPipeline(),
             false,
-            true
+            true,
+            0.2
         };
     }
 
     struct Config
     parseConfig(std::string configFilename)
     {
-        std::cout << "started parseconfig";
         // open the file
         std::ifstream
         configFile (configFilename);
-        std::cout << "openeed filefirst;";
 
         // make a new struct
         struct Config config = {};
         auto configJson = nlohmann::json::parse(configFile);
         std::cout << configJson;
-        std::cout << "openeed file;";
         // parse it
         try {
-            std::cout << "loading name,";
             config.name = configJson["name"];
-            std::cout << "desc,";
             config.description = configJson["description"];
-            std::cout << "pipeline,";
             auto pipelineConfig = configJson["pipeline"];
-            config.pipeline = makePipeline(pipelineConfig);
-            std::cout << "silent,";
+            config.errorRate = configJson["error-rate"];
+            config.pipeline = makePipeline(pipelineConfig, config.errorRate);
             config.silent = configJson["silent"];
-            std::cout << "unknowns,";
             config.excludeUnknowns = configJson["exclude-unknowns"];
         } catch (nlohmann::detail::type_error const&) {
             // catch any errors in file parsing
             std::cout << "Error found in config file!\nReverting to default configuration.";
             return makeDefaultConfig();
         } catch (nlohmann::detail::parse_error const&) {
-            std::cout << "lmao parse error\n";
             return makeDefaultConfig();
         }
 
         return config;
     }
 
+
+
     /*
         reads the config file, and builds a pipeline 
         of operations to perform on each read
     */
     Pipeline
-    makePipeline(nlohmann::json pipelineJson)
+    makePipeline(nlohmann::json pipelineJson, const double errorRate)
     {
         using namespace std::placeholders;
 
@@ -94,7 +89,7 @@ namespace config {
                     (method.contains("report-artefacts") ? (bool) method["report-artefacts"] : false);
                 
                 Method function = std::bind(classifyPrimer, 
-                    _1, method["edit-distance"], method["tso"], method["rtp"], report_artefacts
+                    _1, errorRate, method["tso"], method["rtp"], report_artefacts
                 );
                 pipeline.push_back(function);
             }

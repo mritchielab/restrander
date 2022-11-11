@@ -3,6 +3,7 @@
 #include <sstream>
 #include <algorithm>
 #include <iostream>
+#include <math.h>
 
 #include "utilities.h"
 #include "ukkonenMatch.h"
@@ -62,6 +63,15 @@ reverseComplement(std::string& s)
 }
 
 /*
+    gets the appropriate edit distance, given an error rate (typically 0.1) and a key
+*/
+int
+getEditDist(const double errorRate, const std::string& key)
+{
+    return ceil(key.size() * errorRate);
+}
+
+/*
     checks whether a polyA tail is present in the last countThreshold characters of a sequence
 */
 bool
@@ -94,7 +104,6 @@ hasPolyTTail(std::string& seq, int polyTThreshold, int countThreshold)
 {
     int polyT = 0;
     int counted = 0;
-    int seqLength = seq.size();
 
     for (auto it = seq.begin(); it != seq.end() && counted < countThreshold; ++it) {
         if (*it == 'T') {
@@ -121,7 +130,6 @@ hasRTP(std::string& seq, int thresholdDist, std::string RTP, int searchSize)
 {
     return containsMatch(seq, RTP, searchSize, thresholdDist);
 }
-
 
 /*
     checks whether a seq has an TSO in the first searchSize characters, 

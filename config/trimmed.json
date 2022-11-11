@@ -8,6 +8,7 @@
             "search-size": 200
         }
     ],
-    "silent": false,
-    "exclude-unknowns": true
+    "silent": true,
+    "exclude-unknowns": true,
+    "error-rate": 0.25
 }

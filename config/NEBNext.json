@@ -11,10 +11,10 @@
             "type": "primer",
             "tso": "GCTAATCATTGCAAGCAGTGGTATCAACGCAGAGTACAT",
             "rtp": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAGTACTCTGCGTTGATACCACTGCTT",
-            "edit-distance": 6,
             "report-artefacts": false 
         }
     ],
     "silent": false,
-    "exclude-unknowns": true
+    "exclude-unknowns": true,
+    "error-rate": 0.25
 }

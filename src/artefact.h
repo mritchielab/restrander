@@ -12,7 +12,7 @@ namespace artefact {
 
     Artefact
     classifyArtefact(
-        std::string& seq, int editDistance, 
+        std::string& seq, const double errorRate, 
         std::string& tso, std::string& rtp, 
         bool TSO, bool RTP
     );

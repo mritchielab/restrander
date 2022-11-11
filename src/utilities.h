@@ -12,6 +12,9 @@ reverse(std::string& s);
 std::string
 reverseComplement(std::string& s);
 
+int
+getEditDist(const double errorRate, const std::string& key);
+
 bool
 hasPolyATail(std::string& seq, int polyAThreshold=12, int countThreshold=200);
 

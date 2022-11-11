@@ -12,7 +12,7 @@
 /* struct to represent the result of one classification */
 struct Result
 {
-    strand::Strand strand;
+    strand::Strand     strand;
     artefact::Artefact artefact;
 };
 
@@ -30,6 +30,6 @@ Result
 classifyPoly(std::string& seq, int tailLength, int searchSize);
 
 Result
-classifyPrimer(std::string& seq, int editDistance, std::string tso, std::string rtp, bool classifyArtefacts);
+classifyPrimer(std::string& seq, const double errorRate, std::string tso, std::string rtp, bool classifyArtefacts);
 
 #endif

@@ -88,7 +88,7 @@ classifyPoly(std::string& seq, int tailLength, int searchSize)
 */
 Result
 classifyPrimer(
-    std::string& seq, int editDist, 
+    std::string& seq, const double errorRate, 
     std::string tso, std::string rtp, 
     bool reportArtefacts
 )
@@ -97,13 +97,13 @@ classifyPrimer(
     strand = strand::unknown;
 
     // first find the TSO and RTP
-    bool TSO = hasTSO(seq, editDist, tso);
-    bool RTP = hasRTP(seq, editDist, rtp);
+    bool TSO = hasTSO(seq, getEditDist(errorRate, tso), tso);
+    bool RTP = hasRTP(seq, getEditDist(errorRate, rtp), rtp);
 
     // do artefact detection if necessary
     artefact::Artefact
     artefact = reportArtefacts ? 
-        artefact::classifyArtefact(seq, editDist, tso, rtp, TSO, RTP) : 
+        artefact::classifyArtefact(seq, errorRate, tso, rtp, TSO, RTP) : 
         artefact::none;
     
     // if we've found an artefact, just consider the read unknown

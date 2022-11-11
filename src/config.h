@@ -12,6 +12,7 @@ namespace config {
         Pipeline    pipeline;
         bool        silent;
         bool        excludeUnknowns;
+        double      errorRate;
     };
 
     struct Config
@@ -21,7 +22,7 @@ namespace config {
     parseConfig(std::string configFilename);
     
     Pipeline
-    makePipeline(nlohmann::json pipelineJson);
+    makePipeline(nlohmann::json pipelineJson, const double errorRate);
 }    
 
 
