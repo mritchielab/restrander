@@ -74,8 +74,8 @@ Writer::write (Record& record)
 {
     if (excludeUnknowns && record.strand == strand::unknown)
         unknowns->write(record);
-
-    (this->writeFunc)(*this, record);
+    else
+        (this->writeFunc)(*this, record);
 }
 
 
