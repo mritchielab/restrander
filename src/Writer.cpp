@@ -15,7 +15,6 @@ Writer::Writer (std::string filename, bool excludeUnknowns)
     // get the file extension
     std::string extension = filename.substr(filename.find_last_of(".") + 1);
     if (extension == "gz") {
-        std::cout << "gzipped\n";
         // file is gzipped, record this and slice again
         this->gzippedFile = gzopen(filename.c_str(), "w");
         this->writeLineFunc = &Writer::writeLineGzipped;

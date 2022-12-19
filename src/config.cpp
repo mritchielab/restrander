@@ -39,7 +39,7 @@ namespace config {
         // make a new struct
         struct Config config = {};
         auto configJson = nlohmann::json::parse(configFile);
-        std::cout << configJson;
+        
         // parse it
         try {
             config.name = configJson["name"];
