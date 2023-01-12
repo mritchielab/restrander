@@ -1,6 +1,6 @@
 {
     "name": "PCB111",
-    "description": "Looks for the standard TSO (SSP) and RTP (VNP) used in PCB109 chemistry.",
+    "description": "Looks for the standard TSO (SSP) and RTP (VNP) used in PCB111 chemistry.",
     "pipeline": [
         {
             "type": "poly",
@@ -9,8 +9,8 @@
         },
         {
             "type": "primer",
-            "tso": "TTTCTGTTGGTGCTGATATTGCTGGG",
-            "rtp": "ACTTGCCTGTCGCTCTATCTTCT",
+            "tso": "TTTCTGTTGGTGCTGATATTGCTTT",
+            "rtp": "CTTGCCTGTCGCTCTATCTTCAGAGGAG",
             "report-artefacts": true
         }
     ],

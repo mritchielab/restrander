@@ -10,7 +10,7 @@
         {
             "type": "primer",
             "tso": "GCTAATCATTGCAAGCAGTGGTATCAACGCAGAGTACAT",
-            "rtp": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAGTACTCTGCGTTGATACCACTGCTT",
+            "rtp": "AAGCAGTGGTATCAACGCAGAGTACTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
             "report-artefacts": false 
         }
     ],
