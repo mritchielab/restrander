@@ -11,7 +11,7 @@
             "type": "primer",
             "tso": "GCTAATCATTGCAAGCAGTGGTATCAACGCAGAGTACAT",
             "rtp": "AAGCAGTGGTATCAACGCAGAGTACTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
-            "report-artefacts": false 
+            "report-artefacts": true 
         }
     ],
     "silent": false,

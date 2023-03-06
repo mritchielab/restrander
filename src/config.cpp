@@ -92,6 +92,8 @@ namespace config {
                     _1, errorRate, method["tso"], method["rtp"], report_artefacts
                 );
                 pipeline.push_back(function);
+            } else if (method["type"] == "primer-extended") {
+                // todo
             }
 
             } catch (nlohmann::detail::type_error const&) {

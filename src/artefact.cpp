@@ -8,7 +8,7 @@
 namespace artefact 
 {
     /*
-        determines whether a read is a TSO-TSO artefact or a RT-RT artefact.
+        determines whether a read is a TSO-TSO artefact or a RTP-RTP artefact.
     */
     Artefact
     classifyArtefact(
