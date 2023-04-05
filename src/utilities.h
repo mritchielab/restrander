@@ -1,3 +1,6 @@
+#ifndef UTILITIES_H
+#define UTILITIES_H
+
 #include <string>
 
 char
@@ -26,3 +29,5 @@ hasRTP(std::string& seq, int thresholdDist=3, std::string RTP="ACTTGCCTGTCGCTCTA
 
 bool
 hasTSO(std::string& seq, int thresholdDist=3, std::string TSO="TTTCTGTTGGTGCTGATATTGCTGGG", int searchSize=200);
+
+#endif

@@ -8,12 +8,7 @@
 #include "Writer.h"
 #include "config.h"
 #include "stats.h"
-
-#define C_MAGENTA   "\x1B[35m"
-#define C_DEFAULT   "\x1B[0m"
-#define C_GREEN     "\x1B[32m"
-#define C_RED       "\x1B[31m"
-#define C_YELLOW    "\x1B[33m"
+#include "colors.h"
 
 /*
     checks whether restrander has been run with a valid number of arguments,
@@ -23,13 +18,13 @@ bool
 validArgumentCount(int argc)
 {
     if (argc == 3) {
-        std::cout << C_YELLOW << "No configuration provided, using defaults!\n" << C_DEFAULT;
+        std::cout << colors::print("No configuration provided, using defaults!\n", colors::warn);
         return true;
     }
 
     if (argc != 4) {
-        std::cout << C_YELLOW << "Wrong number of arguments!" << C_DEFAULT << " Use format:\n"
-            << "\trestrander [input filename] [output filename] (config filename)\n" << C_DEFAULT;
+        std::cout << colors::print("Wrong number of arguments!", colors::warn) << " Use format:\n"
+            << "\trestrander [input filename] [output filename] (config filename)\n";
         return false;
     }
     return true;
@@ -41,7 +36,7 @@ validArgumentCount(int argc)
 void
 printHeader(std::string inputFilename, std::string outputFilename, std::string name)
 {
-    std::cout << C_GREEN << "Restrander initialised.\n" << C_DEFAULT
+    std::cout << colors::print("Restrander initialised.\n", colors::good)
         << "\tInput file  :\t" << inputFilename << "\n"
         << "\tOutput file :\t" << outputFilename << "\n"
         << "\tPipeline    :\t" << name << "\n";
@@ -69,7 +64,7 @@ main(int argc, char ** argv)
     }
 
     if (!config.silent) {
-        std::cout << C_GREEN << "Started restranding...\n" << C_DEFAULT;
+        std::cout << colors::print("Started restranding...\n", colors::good);
     }
     
     // initialise stats and record
@@ -105,7 +100,7 @@ main(int argc, char ** argv)
     }
 
     if (!config.silent) {
-        std::cout << C_GREEN << "Finished restranding!\n" << C_DEFAULT;
+        std::cout << colors::print("Finished restranding!\n", colors::good);
     }
 
     // print out the stats

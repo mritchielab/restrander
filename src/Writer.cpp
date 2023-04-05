@@ -34,7 +34,6 @@ Writer::Writer (std::string filename, bool excludeUnknowns)
     validExtensions;
     validExtensions["fq"] = &Writer::writeFq;
     validExtensions["fastq"] = &Writer::writeFq;
-    // validExtensions["bam"] = &Writer::writeModbam;
     this->writeFunc = validExtensions[extension];
 }
 

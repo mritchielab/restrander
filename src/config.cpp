@@ -6,6 +6,7 @@
 
 #include "json.hpp"
 #include "classify.h"
+#include "colors.h"
 
 namespace config {
     
@@ -38,22 +39,28 @@ namespace config {
 
         // make a new struct
         struct Config config = {};
-        auto configJson = nlohmann::json::parse(configFile);
-        
-        // parse it
         try {
-            config.name = configJson["name"];
-            config.description = configJson["description"];
-            auto pipelineConfig = configJson["pipeline"];
-            config.errorRate = configJson["error-rate"];
-            config.pipeline = makePipeline(pipelineConfig, config.errorRate);
-            config.silent = configJson["silent"];
-            config.excludeUnknowns = configJson["exclude-unknowns"];
-        } catch (nlohmann::detail::type_error const&) {
-            // catch any errors in file parsing
-            std::cout << "Error found in config file!\nReverting to default configuration.";
-            return makeDefaultConfig();
+            auto configJson = nlohmann::json::parse(configFile);
+        
+            // parse it
+            try {
+                config.name = configJson["name"];
+                config.description = configJson["description"];
+                auto pipelineConfig = configJson["pipeline"];
+                config.errorRate = configJson["error-rate"];
+                config.pipeline = makePipeline(pipelineConfig, config.errorRate);
+                config.silent = configJson["silent"];
+                config.excludeUnknowns = configJson["exclude-unknowns"];
+            } catch (nlohmann::detail::type_error const&) {
+                // catch any errors in file parsing
+                std::cout << colors::print("Error found in config file!\nCheck that your config file is correctly formatted.\nReverting to default configuration.\n", colors::warn);
+                return makeDefaultConfig();
+            } catch (nlohmann::detail::parse_error const&) {
+                return makeDefaultConfig();
+            }
+
         } catch (nlohmann::detail::parse_error const&) {
+            std::cout << colors::print("Error when parsing config file!\nCheck that the path you entered was valid.\nReverting to default configuration.\n", colors::warn);
             return makeDefaultConfig();
         }
 
@@ -97,7 +104,7 @@ namespace config {
             }
 
             } catch (nlohmann::detail::type_error const&) {
-                std::cout << "Error in configuration file!\nUsing default PCB109 configuration.\n";
+                std::cout << colors::print("Error in configuration file!\nUsing default PCB109 configuration.\n", colors::warn);
                 return makeDefaultPipeline();
             }
         }
