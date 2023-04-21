@@ -18,6 +18,9 @@ namespace config {
     struct Config
     makeDefaultConfig();
 
+    nlohmann::json
+    parseConfigFile(std::string configFilename);
+
     struct Config
     parseConfig(std::string configFilename);
     

@@ -42,6 +42,19 @@ printHeader(std::string inputFilename, std::string outputFilename, std::string n
         << "\tPipeline    :\t" << name << "\n";
 }
 
+nlohmann::json
+toJson(stats::Stats stats, char ** argv)
+{
+    nlohmann::json json;
+
+    // json["inputFile"] = argv[1];
+    // json["outputFile"] = argv[2];
+    // json["config"] = config::parseConfigFile(argv[3]);
+    json["stats"] = stats::toJson(stats);
+
+    return json;
+}
+
 
 int
 main(int argc, char ** argv)
@@ -112,6 +125,7 @@ main(int argc, char ** argv)
         << "\tt reads     :\t" << stats.artefact.stats[artefact::tsotso] << "\n"
         << "\tv reads     :\t" << stats.artefact.stats[artefact::rtprtp] << "\n";
     
+    std::cout << toJson(stats, argv).dump(4) << "\n";
     // close the files
     reader.close();
     writer.close();

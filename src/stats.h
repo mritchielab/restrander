@@ -3,8 +3,10 @@
 
 #include <unordered_map>
 
+#include "json.hpp"
 #include "strand.h"
 #include "artefact.h"
+#include "config.h"
 
 namespace stats {
     /*
@@ -32,6 +34,16 @@ namespace stats {
         StrandStats strand;
         ArtefactStats artefact;
     };
+
+    nlohmann::json
+    toJson(StrandStats stats);
+
+    nlohmann::json
+    toJson(ArtefactStats stats);
+
+    nlohmann::json
+    toJson(Stats stats);
+
 }
 
 #endif

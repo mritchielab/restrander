@@ -9,10 +9,18 @@
 #include "colors.h"
 
 namespace config {
+    bool
+    pipelineHasArtefacts(Pipeline pipeline)
+    {
+        for (const auto& classify : pipeline) {
+
+        }
+    }
+
     
     /*
         builds the default configuration for restrander
-        (hardcoded in, rather than by loading PCB109.json, 
+        (hardcoded in, rather than loading PCB109.json, 
         in case for some reason that file gets broken in someone's system)
     */
     struct Config
@@ -30,6 +38,14 @@ namespace config {
         };
     }
 
+    nlohmann::json
+    parseConfigFile(std::string configFilename)
+    {
+        std::ifstream configFile (configFilename);
+
+        return nlohmann::json::parse(configFile);
+    }
+
     struct Config
     parseConfig(std::string configFilename)
     {
@@ -40,7 +56,7 @@ namespace config {
         // make a new struct
         struct Config config = {};
         try {
-            auto configJson = nlohmann::json::parse(configFile);
+            auto configJson = parseConfigFile(configFilename);
         
             // parse it
             try {
