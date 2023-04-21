@@ -17,14 +17,9 @@
 bool
 validArgumentCount(int argc)
 {
-    if (argc == 3) {
-        std::cout << colors::print("No configuration provided, using defaults!\n", colors::warn);
-        return true;
-    }
-
     if (argc != 4) {
         std::cout << colors::print("Wrong number of arguments!", colors::warn) << " Use format:\n"
-            << "\trestrander [input filename] [output filename] (config filename)\n";
+            << "\trestrander [input filename] [output filename] [config filename]\n";
         return false;
     }
     return true;
