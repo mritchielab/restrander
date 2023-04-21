@@ -18,6 +18,7 @@ In a typical cDNA-seq analysis pipeline, Restrander would be applied after basec
 
 ```bash
 git clone https://github.com/jakob-schuster/restrander.git
+cd restrander
 make
 ```
 
