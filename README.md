@@ -2,9 +2,7 @@
     <img src="figures/logo.png" title="Restrander" alt="Restrander" width="300">
 </p>
 
-# Restrander
-
-A program for restranding Fastq files.
+A fast, accurate program for orienting and quality-checking cDNA sequencing reads.
 
 Parses an input `.fq`, classifying each record as either forward `+`, reverse `-` or unknown `?`, outputting to a new `.fq` with the classification of each read included in a `strand` tag. For reverse reads, the reverse-complement of the original sequence is recorded, and quality scores are also reversed. Also works on gzipped `.gz` files.
 
