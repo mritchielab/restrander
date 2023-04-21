@@ -4,9 +4,11 @@
 
 A fast, accurate program for orienting and quality-checking cDNA sequencing reads.
 
-Restrander parses an input fastq, infers the orientation of each read and prints it to an output fastq. The strand of each read is recorded with the `strand` tag, which is `+`, `-` or `?`. Each read from the reverse strand is replaced with its reverse-complement, ensuring all reads in the output have the same orientation as the original transcripts. 
+In transcriptomic analyses, it is helpful to keep track of the strand of the RNA molecules. However, the Oxford Nanopore long-read cDNA sequencing protocols generate reads that correspond to either the first or second-strand cDNA, therefore the strandedness of the initial transcript has to be inferred bioinformatically.
 
-In a typical cDNA-seq analysis pipeline, Restrander would be applied after basecalling, and before mapping. Only well-formed reads are included in the main output file; reads whose strand cannot be inferred are filtered out into an “unknown” fastq, to be handled separately by the user. If Restrander is configured to detect artefacts, these artefactual reads will also be placed in the “unknown” fastq.
+Restrander parses an input fastq, infers the orientation of each read and prints it to an output fastq. The strand of each read is recorded with the `strand` tag, either `+` or `-`. Each read from the reverse strand is replaced with its reverse-complement, ensuring all reads in the output have the same orientation as the original transcripts. Only well-formed reads are included in the main output file; reads whose strand cannot be inferred are marked with `strand=?`, and optionally filtered out into an “unknown” fastq to be handled separately by the user. If Restrander is configured to detect artefacts, these artefactual reads will also be placed in the “unknown” fastq.
+
+In a typical cDNA-seq analysis pipeline, Restrander would be applied after basecalling, and before mapping. 
 
 # Installation
 
