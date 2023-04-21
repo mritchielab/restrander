@@ -4,66 +4,22 @@
 
 A fast, accurate program for orienting and quality-checking cDNA sequencing reads.
 
-Parses an input `.fq`, classifying each record as either forward `+`, reverse `-` or unknown `?`, outputting to a new `.fq` with the classification of each read included in a `strand` tag. For reverse reads, the reverse-complement of the original sequence is recorded, and quality scores are also reversed. Also works on gzipped `.gz` files.
+Restrander parses an input fastq, infers the orientation of each read and prints it to an output fastq. The strand of each read is recorded with the `strand` tag, which is `+`, `-` or `?`. Each read from the reverse strand is replaced with its reverse-complement, ensuring all reads in the output have the same orientation as the original transcripts. 
 
-# Usage instructions
+In a typical cDNA-seq analysis pipeline, Restrander would be applied after basecalling, and before mapping. In the analysis for this paper, fastqs produced by Guppy were fed into Restrander, and then the restranded fastqs were used with minimap2. Only well-formed reads are included in the main output file; reads whose strand cannot be inferred are filtered out into an “unknown” fastq, to be handled separately by the user. If Restrander is configured to detect artefacts, these artefactual reads will also be placed in the “unknown” fastq.
 
-Simply run `restrander`, giving one input file and one output file:
+# Installation
 
-```
-./restrander input.fq output.fq
-```
-
-Optionally, you can provide a specific configuration file:
-
-```
-./restrander input.fq output.fq config.json
+```bash
+git clone https://github.com/jakob-schuster/restrander.git
+make
 ```
 
-# How it works
+# Usage
 
-Each forward read is assumed to have the particular form:
+Run `restrander` with one input file, one output file and one configuration file. The input and/or output can optionally be gzipped. The configuration provides the TSO and RTP sequences, and different configurations are used for different protocols.
 
-``` handle - barcode - TSO - mRNA - polyA - RTP_reverse_complement - barcode_reverse_complement - handle_reverse complement ```
-
-While a reverse read takes the form:
-
-``` handle - barcode - RTP - polyT - mRNA_reverse_complement - TSO_reverse_complement - barcode_reverse_complement - handle_reverse complement ```
-
-Because of these differences, there are a few methods for classifying read direction:
-
-## PolyA/PolyT Classification
-
-A naive method of looking through each sequence for a PolyA tail of consecutive As near the start, and a PolyT tail of consecutive Ts near the end.
-
-| PolyA tail present  | PolyT tail present  | Classification  |
-| ------------------- | ------------------- | --------------- |
-| Yes                 | No                  | Forward         |
-| No                  | Yes                 | Reverse         |
-| Yes                 | Yes                 | Ambiguous       |
-| No                  | No                  | Ambiguous       |
-
-Some sequences include native PolyA/PolyT tails, leading to ambiguous reads.
-
-## TSO/RTP Classification
-
-A method of searching for the TSO and RTP near the start of the read to classify it. Often the TSO and RTP are not perfectly present in the read, allowing for some edit distance.
-
-| TSO found in sequence | RTP found in sequence | Classification  |
-| --------------------- | --------------------- | --------------- |
-| Yes                   | No                    | Forward         |
-| No                    | Yes                   | Reverse         |
-| Yes                   | Yes                   | Ambiguous       |
-| No                    | No                    | Ambiguous       |
-
-This method takes longer than PolyA/PolyT classification. Additionally, sometimes the TSO and RTP are so wrong in the sequence that we cannot identify them, leading to ambiguous reads.
-
-# Configurations
-
-## PCB109
-
-The default configuration. First applies PolyA/PolyT classification, then looks for the standard TSO/SSP and RTP used in PCB109 chemistry.
-
-## Trimmed
-
-A configuration for trimmed reads. Trimmed reads do not have primers, they only have PolyA/PolyT tails. Hence, the trimmed pipeline only performs PolyA/PolyT classification.
+```bash
+# to run 
+./restrander input.fq.gz output.fq.gz config/PCB109.json
+```
