@@ -4,6 +4,8 @@
 
 A fast, accurate program for orienting and quality-checking cDNA sequencing reads.
 
+# Introduction
+
 In transcriptomic analyses, it is helpful to keep track of the strand of the RNA molecules. However, the Oxford Nanopore long-read cDNA sequencing protocols generate reads that correspond to either the first or second-strand cDNA, therefore the strandedness of the initial transcript has to be inferred bioinformatically.
 
 Restrander parses an input fastq, infers the orientation of each read and prints to an output fastq. The strand of each read is recorded with the `strand` tag, either `+` or `-`. Each read from the reverse strand is replaced with its reverse-complement, ensuring all reads in the output have the same orientation as the original transcripts. 
