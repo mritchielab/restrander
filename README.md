@@ -4,7 +4,7 @@
 
 A fast, accurate program for orienting and quality-checking cDNA sequencing reads.
 
-# Introduction
+## Introduction
 
 In transcriptomic analyses, it is helpful to keep track of the strand of the RNA molecules. However, the Oxford Nanopore long-read cDNA sequencing protocols generate reads that correspond to either the first or second-strand cDNA, therefore the strandedness of the initial transcript has to be inferred bioinformatically.
 
@@ -14,14 +14,14 @@ Only well-formed reads are included in the main output file; reads whose strand 
 
 In a typical cDNA-seq analysis pipeline, Restrander would be applied after basecalling, and before mapping. 
 
-# Installation
+## Installation
 
 ```bash
 git clone https://github.com/jakob-schuster/restrander.git
 make
 ```
 
-# Usage
+## Usage
 
 Run `restrander` with one input file, one output file and one configuration file. The input and/or output can optionally be gzipped. The configuration provides the TSO and RTP sequences, and different configurations are used for different protocols.
 
