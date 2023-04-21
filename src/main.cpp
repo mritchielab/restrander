@@ -116,15 +116,6 @@ main(int argc, char ** argv)
         std::cout << colors::print("Finished restranding!\n", colors::good);
     }
 
-    // print out the stats
-    std::cout
-        << "\tTotal reads :\t" << stats.total << "\n"
-        << "\t+ reads     :\t" << stats.strand.stats[strand::forward] << "\n"
-        << "\t- reads     :\t" << stats.strand.stats[strand::reverse] << "\n"
-        << "\t? reads     :\t" << stats.strand.stats[strand::unknown] << "\n"
-        << "\tt reads     :\t" << stats.artefact.stats[artefact::tsotso] << "\n"
-        << "\tv reads     :\t" << stats.artefact.stats[artefact::rtprtp] << "\n";
-    
     std::cout << toJson(stats, argv).dump(4) << "\n";
     // close the files
     reader.close();
