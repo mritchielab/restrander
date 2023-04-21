@@ -26,6 +26,6 @@ make
 Run `restrander` with one input file, one output file and one configuration file. The input and/or output can optionally be gzipped. The configuration provides the TSO and RTP sequences, and different configurations are used for different protocols.
 
 ```bash
-# to run 
+# for standard ONT PCB109 data:
 ./restrander input.fq.gz output.fq.gz config/PCB109.json
 ```
