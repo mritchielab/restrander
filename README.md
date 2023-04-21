@@ -1,3 +1,5 @@
+<img src="figures/logo.png" title="Restrander" alt="Restrander">
+
 # restrander
 
 A program for restranding Fastq files.
