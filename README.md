@@ -1,6 +1,8 @@
-<img src="figures/logo.png" title="Restrander" alt="Restrander">
+<p align="center">
+    <img src="figures/logo.png" title="Restrander" alt="Restrander" width="100">
+</p>
 
-# restrander
+# Restrander
 
 A program for restranding Fastq files.
 
