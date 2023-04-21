@@ -8,6 +8,17 @@
 #include "utilities.h"
 #include "ukkonenMatch.h"
 
+namespace program {
+    /*
+        terminates the program, called whenever a fatal error occurs
+    */
+    void
+    stop()
+    {
+        exit(EXIT_FAILURE);
+    }
+}
+
 /*
     gets the complement of an individual character
 */

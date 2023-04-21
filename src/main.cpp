@@ -14,15 +14,14 @@
     checks whether restrander has been run with a valid number of arguments,
     prints out some info if necessary
 */
-bool
-validArgumentCount(int argc)
+void
+checkArgumentCount(int argc)
 {
     if (argc != 4) {
         std::cout << colors::print("Wrong number of arguments!", colors::warn) << " Use format:\n"
             << "\trestrander [input filename] [output filename] [config filename]\n";
-        return false;
+        program::stop();
     }
-    return true;
 }
 
 /*
@@ -55,9 +54,7 @@ int
 main(int argc, char ** argv)
 {
     // first, check that the right number of arguments have been supplied
-    if (!validArgumentCount(argc)) {
-        return 1;
-    }
+    checkArgumentCount(argc);
 
     // read in the configuration file, if one is given
     auto config = argc == 4 ? config::parseConfig(argv[3]) : config::makeDefaultConfig();

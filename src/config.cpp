@@ -7,14 +7,16 @@
 #include "json.hpp"
 #include "classify.h"
 #include "colors.h"
+#include "utilities.h"
 
 namespace config {
     bool
     pipelineHasArtefacts(Pipeline pipeline)
     {
-        for (const auto& classify : pipeline) {
+        // for (const auto& classify : pipeline) {
 
-        }
+        // }
+        return true;
     }
 
     
@@ -49,41 +51,33 @@ namespace config {
     struct Config
     parseConfig(std::string configFilename)
     {
-        // open the file
-        std::ifstream
-        configFile (configFilename);
 
-        // make a new struct
-        struct Config config = {};
         try {
-            auto configJson = parseConfigFile(configFilename);
-        
-            // parse it
-            try {
-                config.name = configJson["name"];
-                config.description = configJson["description"];
-                auto pipelineConfig = configJson["pipeline"];
-                config.errorRate = configJson["error-rate"];
-                config.pipeline = makePipeline(pipelineConfig, config.errorRate);
-                config.silent = configJson["silent"];
-                config.excludeUnknowns = configJson["exclude-unknowns"];
-            } catch (nlohmann::detail::type_error const&) {
-                // catch any errors in file parsing
-                std::cout << colors::print("Error found in config file!\nCheck that your config file is correctly formatted.\nReverting to default configuration.\n", colors::warn);
-                return makeDefaultConfig();
-            } catch (nlohmann::detail::parse_error const&) {
-                return makeDefaultConfig();
-            }
+            // open the file
+            std::ifstream
+            configFile (configFilename);
 
-        } catch (nlohmann::detail::parse_error const&) {
-            std::cout << colors::print("Error when parsing config file!\nCheck that the path you entered was valid.\nReverting to default configuration.\n", colors::warn);
-            return makeDefaultConfig();
+            // parse it into json
+            auto configJson = parseConfigFile(configFilename);
+
+            // make a new struct
+            return (Config) {
+                configJson["name"],
+                configJson["description"],
+                makePipeline(configJson["pipeline"], configJson["error-rate"]),
+                configJson["silent"],
+                configJson["exclude-unknowns"],
+                configJson["error-rate"]
+            };
+    
+        } catch (...) {
+            std::cout << colors::print("Error when parsing config file!\nCheck that the path you entered was valid.\n", colors::warn);
+            program::stop();
         }
 
-        return config;
+        // should never get here
+        return makeDefaultConfig();
     }
-
-
 
     /*
         reads the config file, and builds a pipeline 

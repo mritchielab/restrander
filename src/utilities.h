@@ -3,6 +3,11 @@
 
 #include <string>
 
+namespace program {
+    void
+    stop();
+}
+
 char
 complement(char c);
 
