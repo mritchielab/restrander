@@ -18,7 +18,7 @@ void
 checkArgumentCount(int argc)
 {
     if (argc != 4) {
-        std::cout << colors::print("Wrong number of arguments!", colors::warn) << " Use format:\n"
+        std::cerr << colors::print("Wrong number of arguments!", colors::warn) << " Use format:\n"
             << "\trestrander [input filename] [output filename] [config filename]\n";
         program::stop();
     }
@@ -30,7 +30,7 @@ checkArgumentCount(int argc)
 void
 printHeader(std::string inputFilename, std::string outputFilename, std::string name)
 {
-    std::cout << colors::print("Restrander initialised.\n", colors::good)
+    std::cerr << colors::print("Restrander initialised.\n", colors::good)
         << "\tInput file  :\t" << inputFilename << "\n"
         << "\tOutput file :\t" << outputFilename << "\n"
         << "\tPipeline    :\t" << name << "\n";
@@ -69,7 +69,7 @@ main(int argc, char ** argv)
     }
 
     if (!config.silent) {
-        std::cout << colors::print("Started restranding...\n", colors::good);
+        std::cerr << colors::print("Started restranding...\n", colors::good);
     }
     
     // initialise stats and record
@@ -92,7 +92,7 @@ main(int argc, char ** argv)
         recordNum += 1;
         if (!config.silent && recordNum % 100000 == 0 && recordNum > 0) {
             // print out a message every 100000 records
-            std::cout << "\tUp to record " << recordNum << "...\n";
+            std::cerr << "\tUp to record " << recordNum << "...\n";
         }
 
         // write down the record
@@ -105,7 +105,7 @@ main(int argc, char ** argv)
     }
 
     if (!config.silent) {
-        std::cout << colors::print("Finished restranding!\n", colors::good);
+        std::cerr << colors::print("Finished restranding!\n", colors::good);
     }
 
     std::cout << toJson(stats, argv).dump(4) << "\n";

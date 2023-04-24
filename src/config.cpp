@@ -71,7 +71,7 @@ namespace config {
             };
     
         } catch (...) {
-            std::cout << colors::print("Error when parsing config file!\nCheck that the path you entered was valid.\n", colors::warn);
+            std::cerr << colors::print("Error when parsing config file!\nCheck that the path you entered was valid.\n", colors::warn);
             program::stop();
         }
 
@@ -114,7 +114,7 @@ namespace config {
             }
 
             } catch (nlohmann::detail::type_error const&) {
-                std::cout << colors::print("Error in configuration file!\nUsing default PCB109 configuration.\n", colors::warn);
+                std::cerr << colors::print("Error in configuration file!\nUsing default PCB109 configuration.\n", colors::warn);
                 return makeDefaultPipeline();
             }
         }

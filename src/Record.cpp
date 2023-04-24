@@ -26,7 +26,7 @@ Record::Record
     std::string quality
 )
 {
-    // std::cout << "created record:\n"
+    // std::cerr << "created record:\n"
     //         << "\tidentifier: " << identifier << "\n"
     //         << "\tsequence: " << sequence << "\n" 
     //         << "\tquality: " << quality << "\n"

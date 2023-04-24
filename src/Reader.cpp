@@ -42,7 +42,7 @@ Reader::Reader (std::string filename)
 
         this->readFunc = validExtensions[extension];
     } catch (...) {
-        std::cout << colors::print("Error when opening input file!\nCheck that the path you entered was valid.\n", colors::warn);
+        std::cerr << colors::print("Error when opening input file!\nCheck that the path you entered was valid.\n", colors::warn);
         program::stop();
     }
 }
