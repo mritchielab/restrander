@@ -4,6 +4,8 @@
 
 #include "Reader.h"
 #include "Record.h"
+#include "colors.h"
+#include "utilities.h"
 
 
 /*
@@ -11,33 +13,38 @@
 */
 Reader::Reader (std::string filename)
 {
-    // get the file extension
-    std::string
-    extension = filename.substr(filename.find_last_of(".") + 1);
-    if (extension == "gz") {
-        // file is gzipped, record this and slice again
-        this->gzippedFile = gzopen(filename.c_str(), "r");
-        this->readLineFunc = &Reader::readLineGzipped;
-        this->closeFunc = &Reader::closeGzipped;
-        auto filenameWithoutGz = filename.substr(0, filename.find_last_of("."));
-        extension = filenameWithoutGz.substr(filenameWithoutGz.find_last_of(".") + 1);
-    } else {
-        // file is not gzipped, just open it
-        this->file.open(filename);
-        this->readLineFunc = &Reader::readLineStandard;
-        this->closeFunc = &Reader::closeStandard;
+    try {
+        // get the file extension
+        std::string
+        extension = filename.substr(filename.find_last_of(".") + 1);
+        if (extension == "gz") {
+            // file is gzipped, record this and slice again
+            this->gzippedFile = gzopen(filename.c_str(), "r");
+            this->readLineFunc = &Reader::readLineGzipped;
+            this->closeFunc = &Reader::closeGzipped;
+            auto filenameWithoutGz = filename.substr(0, filename.find_last_of("."));
+            extension = filenameWithoutGz.substr(filenameWithoutGz.find_last_of(".") + 1);
+        } else {
+            // file is not gzipped, just open it
+            this->file.open(filename);
+            this->readLineFunc = &Reader::readLineStandard;
+            this->closeFunc = &Reader::closeStandard;
+        }
+        // extension should now be correct
+
+        // make sure that it is in our list of valid file extensions
+        // (this is just for when we add support for other formats in the future)
+        std::unordered_map<std::string, ReadFunc>
+        validExtensions;
+        validExtensions["fq"] = &Reader::readFq;
+        validExtensions["fastq"] = &Reader::readFq;
+        // validExtensions["bam"] = &Reader::readBam;
+
+        this->readFunc = validExtensions[extension];
+    } catch (...) {
+        std::cout << colors::print("Error when opening input file!\nCheck that the path you entered was valid.\n", colors::warn);
+        program::stop();
     }
-    // extension should now be correct
-
-    // make sure that it is in our list of valid file extensions
-    // (this is just for when we add support for other formats in the future)
-    std::unordered_map<std::string, ReadFunc>
-    validExtensions;
-    validExtensions["fq"] = &Reader::readFq;
-    validExtensions["fastq"] = &Reader::readFq;
-    // validExtensions["bam"] = &Reader::readBam;
-
-    this->readFunc = validExtensions[extension];
 }
 
 /*
