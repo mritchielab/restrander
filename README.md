@@ -4,6 +4,9 @@
 
 A fast, accurate program for orienting and quality-checking cDNA sequencing reads. 
 
+For more in-depth documentation, read [the vignette](https://github.com/jakob-schuster/restrander-vignette).
+
+
 ## Introduction
 
 In transcriptomic analyses, it is helpful to keep track of the strand of the RNA molecules. However, the Oxford Nanopore long-read cDNA sequencing protocols generate reads that correspond to either the first or second-strand cDNA, therefore the strandedness of the initial transcript has to be inferred bioinformatically.
@@ -30,5 +33,3 @@ Run `restrander` with one input file, one output file and one configuration file
 # for standard ONT PCB109 data:
 ./restrander input.fq.gz output.fq.gz config/PCB109.json
 ```
-
-For more in-depth documentation, read [the vignette](https://github.com/jakob-schuster/restrander-vignette).
