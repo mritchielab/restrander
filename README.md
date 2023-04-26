@@ -2,7 +2,7 @@
     <img src="figures/logo.png" title="Restrander" alt="Restrander" width="300">
 </p>
 
-A fast, accurate program for orienting and quality-checking cDNA sequencing reads. For more in-depth documentation, read [the vignette](https://github.com/jakob-schuster/restrander-vignette).
+A fast, accurate program for orienting and quality-checking cDNA sequencing reads. 
 
 ## Introduction
 
@@ -30,3 +30,5 @@ Run `restrander` with one input file, one output file and one configuration file
 # for standard ONT PCB109 data:
 ./restrander input.fq.gz output.fq.gz config/PCB109.json
 ```
+
+For more in-depth documentation, read [the vignette](https://github.com/jakob-schuster/restrander-vignette).
