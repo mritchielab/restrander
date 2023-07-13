@@ -16,19 +16,19 @@ Writer::Writer (std::string filename, bool excludeUnknowns)
         }
 
         // check if the file points to a valid location
-        if (!std::filesystem::exists(std::filesystem::path(filename)))
+        if (std::filesystem::path(filename).parent_path() != "" && !std::filesystem::exists(std::filesystem::path(filename).parent_path()))
             program::error("Error when creating output file!\nCheck that the path you entered corresponds to a directory that exists.\n");
 
         // get the file extension
-        std::string extension = filename.substr(filename.find_last_of(".") + 1);
-        program::note("found extension " + extension + "\n");
-        if (extension == "gz") {
+        std::string extension = std::string(std::filesystem::path(filename).extension());
+        
+        if (extension == ".gz") {
             // file is gzipped, record this and slice again
             this->gzippedFile = gzopen(filename.c_str(), "w");
             this->writeLineFunc = &Writer::writeLineGzipped;
             this->closeFunc = &Writer::closeGzipped;
             auto filenameWithoutGz = filename.substr(0,filename.find_last_of("."));
-            extension = filenameWithoutGz.substr(filenameWithoutGz.find_last_of(".") + 1);
+            extension = std::string(std::filesystem::path(filenameWithoutGz).extension());
         } else {
             // file is not gzipped, just open it
             this->file.open(filename);
@@ -39,8 +39,8 @@ Writer::Writer (std::string filename, bool excludeUnknowns)
 
         std::unordered_map<std::string, WriteFunc>
         validExtensions;
-        validExtensions["fq"] = &Writer::writeFq;
-        validExtensions["fastq"] = &Writer::writeFq;
+        validExtensions[".fq"] = &Writer::writeFq;
+        validExtensions[".fastq"] = &Writer::writeFq;
 
         // make sure that it is in our list of valid file extensions
         if (validExtensions[extension] == NULL) {
@@ -58,11 +58,19 @@ Writer::makeUnknown(std::string &filename)
 {
     auto postfix = "-unknowns";
 
-    // handle filenames without extensions
-    if (filename.find_first_of(".") > filename.size())
-        return filename + postfix;
+    auto parent_path = std::filesystem::path(filename).parent_path();
+    auto filename_stem = std::filesystem::path(filename).stem();
+    auto extension = std::string(std::filesystem::path(filename).extension());
 
-    return filename.substr(0, filename.find_first_of(".")) + postfix + filename.substr(filename.find_first_of("."));
+    // strip away any number of file extensions, in the case of gzipped files    
+    while (filename_stem.has_extension()) {
+        extension = std::string(filename_stem.extension()) + extension;
+        filename_stem = filename_stem.stem();
+    }
+    
+    auto new_filename = std::string(filename_stem) + postfix;
+    
+    return std::string(parent_path/new_filename) + extension;
 }
 
 void
