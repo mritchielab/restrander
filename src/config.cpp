@@ -8,6 +8,7 @@
 #include "classify.h"
 #include "colors.h"
 #include "utilities.h"
+#include "program.h"
 
 namespace config {
     bool
@@ -71,8 +72,7 @@ namespace config {
             };
     
         } catch (...) {
-            std::cerr << colors::print("Error when parsing config file!\nCheck that the path you entered was valid.\n", colors::warn);
-            program::stop();
+            program::error("Error when parsing config file!\nCheck that the path you entered was valid.\n");
         }
 
         // should never get here
@@ -114,8 +114,7 @@ namespace config {
             }
 
             } catch (nlohmann::detail::type_error const&) {
-                std::cerr << colors::print("Error in configuration file!\nUsing default PCB109 configuration.\n", colors::warn);
-                return makeDefaultPipeline();
+                program::error("Error in configuration file!\n");
             }
         }
 

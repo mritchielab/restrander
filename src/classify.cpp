@@ -108,7 +108,7 @@ classifyPrimer(
     
     // if we've found an artefact, just consider the read unknown
     if (artefact != artefact::none) {
-        return {strand, artefact};
+        return {strand::unknown, artefact};
     }
 
     if (TSO && !RTP) {

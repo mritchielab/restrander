@@ -6,7 +6,7 @@
 #include "Record.h"
 #include "colors.h"
 #include "utilities.h"
-
+#include "program.h"
 
 /*
     sets up a file reader, working out the necessary parsing method based on the file extension
@@ -42,8 +42,7 @@ Reader::Reader (std::string filename)
 
         this->readFunc = validExtensions[extension];
     } catch (...) {
-        std::cerr << colors::print("Error when opening input file!\nCheck that the path you entered was valid.\n", colors::warn);
-        program::stop();
+        program::error("Error when opening input file!\nCheck that the path you entered was valid.\n");
     }
 }
 

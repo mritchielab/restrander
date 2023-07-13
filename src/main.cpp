@@ -2,6 +2,7 @@
 #include <vector>
 #include <map>
 #include <optional>
+#include <string>
 
 #include "utilities.h"
 #include "Reader.h"
@@ -9,32 +10,7 @@
 #include "config.h"
 #include "stats.h"
 #include "colors.h"
-
-/*
-    checks whether restrander has been run with a valid number of arguments,
-    prints out some info if necessary
-*/
-void
-checkArgumentCount(int argc)
-{
-    if (argc != 4) {
-        std::cerr << colors::print("Wrong number of arguments!", colors::warn) << " Use format:\n"
-            << "\trestrander [input filename] [output filename] [config filename]\n";
-        program::stop();
-    }
-}
-
-/*
-    prints out some header information
-*/
-void
-printHeader(std::string inputFilename, std::string outputFilename, std::string name)
-{
-    std::cerr << colors::print("Restrander initialised.\n", colors::good)
-        << "\tInput file  :\t" << inputFilename << "\n"
-        << "\tOutput file :\t" << outputFilename << "\n"
-        << "\tPipeline    :\t" << name << "\n";
-}
+#include "program.h"
 
 nlohmann::json
 toJson(stats::Stats stats, char ** argv)
@@ -53,8 +29,12 @@ toJson(stats::Stats stats, char ** argv)
 int
 main(int argc, char ** argv)
 {
+    // check if we're just searching for help
+    program::checkHelp(argc, argv);
+
     // first, check that the right number of arguments have been supplied
-    checkArgumentCount(argc);
+    program::checkArgumentCount(argc);
+
 
     // read in the configuration file, if one is given
     auto config = argc == 4 ? config::parseConfig(argv[3]) : config::makeDefaultConfig();
@@ -65,11 +45,11 @@ main(int argc, char ** argv)
 
     // print out some header information
     if (!config.silent) {
-        printHeader(argv[1], argv[2], config.name);
+        program::printHeader(argv[1], argv[2], config.name);
     }
 
     if (!config.silent) {
-        std::cerr << colors::print("Started restranding...\n", colors::good);
+        program::good("Started restranding...\n");
     }
     
     // initialise stats and record
@@ -92,7 +72,7 @@ main(int argc, char ** argv)
         recordNum += 1;
         if (!config.silent && recordNum % 100000 == 0 && recordNum > 0) {
             // print out a message every 100000 records
-            std::cerr << "\tUp to record " << recordNum << "...\n";
+            program::good("\tUp to record " + std::to_string(recordNum) + "...\n");
         }
 
         // write down the record
@@ -105,7 +85,7 @@ main(int argc, char ** argv)
     }
 
     if (!config.silent) {
-        std::cerr << colors::print("Finished restranding!\n", colors::good);
+        program::good("Finished restranding!\n");
     }
 
     std::cout << toJson(stats, argv).dump(4) << "\n";
