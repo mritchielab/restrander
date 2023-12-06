@@ -33,3 +33,4 @@ Run `restrander` with one input file, one output file and one configuration file
 # for standard ONT PCB109 data:
 ./restrander input.fq.gz output.fq.gz config/PCB109.json
 ```
+
