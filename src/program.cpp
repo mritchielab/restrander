@@ -103,6 +103,24 @@ namespace program {
     }
 
     /*
+        checks whether restrander has been run with the -h/--help argument
+    */
+    bool
+    checkMeta(int argc, char ** argv)
+    {
+        std::vector<std::string> meta_synonyms = {"-m", "--meta"};
+
+        for (int i = 0; i < argc; i++) {
+            for (const auto & m : meta_synonyms) {
+                if (std::string(argv[i]) == m) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /*
         prints out some header information
     */
     void

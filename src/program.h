@@ -5,6 +5,9 @@ namespace program {
     const std::string version = "v1.0.1";
 
     void
+    finish();
+    
+    void
     note(std::string text);
 
     void
@@ -21,6 +24,9 @@ namespace program {
 
     void
     checkHelp(int argc, char ** argv);
+
+    bool
+    checkMeta(int argc, char ** argv);
 
     void
     printHeader(std::string inputFilename, std::string outputFilename, std::string name);

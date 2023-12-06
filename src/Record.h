@@ -39,6 +39,8 @@ class Record
         artefact::Artefact
         artefact;
 
+        MetaResult
+        metaClassify();
 };
 
 #endif

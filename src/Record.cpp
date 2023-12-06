@@ -73,3 +73,12 @@ Record::printFq()
     // then construct the formatted record
     return this->identifier + "\n" + this->sequence + "\n+\n" + this->quality + "\n";
 }
+
+/*
+    meta-classifies a record. implemented for reviewer analysis
+*/
+MetaResult
+Record::metaClassify()
+{
+    return(metaClassifySeq(this->sequence));
+}

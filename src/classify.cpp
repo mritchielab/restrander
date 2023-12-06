@@ -59,6 +59,27 @@ classifyPipeline(std::string& seq, Pipeline& pipeline)
 }
 
 /*
+    classifies a sequence and returns its meta-properties,
+    using an arbitrary static pipeline
+    implemented lazily since this is just for reviewers
+*/
+MetaResult
+metaClassifySeq(std::string& seq)
+{
+    double errorRate = 0.25;
+    std::string tso = "TTTCTGTTGGTGCTGATATTGCTGGG";
+    std::string rtp = "ACTTGCCTGTCGCTCTATCTTCTTTTTTTTTT";
+    
+    return (MetaResult {
+        hasPolyATail(seq),
+        hasPolyTTail(seq),
+        hasTSO(seq, getEditDist(errorRate, tso), tso),
+        hasRTP(seq, getEditDist(errorRate, rtp), rtp),
+        (artefact::classifyArtefact(seq, errorRate, tso, rtp, hasTSO(seq), hasRTP(seq)) != artefact::none)
+    });
+}
+
+/*
     classifies a sequence based on the presence of a PolyA or PolyT tail
     works around 99% of the time
 */
@@ -120,4 +141,19 @@ classifyPrimer(
     }
 
     return {strand, artefact};
+}
+
+std::string
+metaToString(MetaResult result)
+{
+    std::string
+    s = "";
+
+    s += result.polyA    ? 'a' : ' ';
+    s += result.polyT    ? 't' : ' ';
+    s += result.tso      ? 't' : ' ';
+    s += result.rtp      ? 'r' : ' ';
+    s += result.artefact ? 'a' : ' ';
+
+    return s;
 }
