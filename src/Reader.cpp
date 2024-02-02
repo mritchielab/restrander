@@ -70,21 +70,21 @@ Reader::readLineStandard()
     return line;
 }
 
+#define STATIC_GZIPPED_LINE_LENGTH 50000000
+char STATIC_GZIPPED_LINE [STATIC_GZIPPED_LINE_LENGTH];
+
 /*
     read a line from a gzipped file
 */
 std::string
 Reader::readLineGzipped()
 {
-    int length = 500000;
-
-    char line [length];
-    if (!gzgets(this->gzippedFile, line, length)) {
+    if (!gzgets(this->gzippedFile, STATIC_GZIPPED_LINE, STATIC_GZIPPED_LINE_LENGTH)) {
         throw std::invalid_argument ("No more lines to read!");
     }
     // remove the last character, as it's a newline
-    line[strlen(line)-1]='\0';
-    return line;
+    STATIC_GZIPPED_LINE[strlen(STATIC_GZIPPED_LINE)-1]='\0';
+    return STATIC_GZIPPED_LINE;
 }
 
 /*
