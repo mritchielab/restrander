@@ -83,7 +83,10 @@ Reader::readLineGzipped()
         throw std::invalid_argument ("No more lines to read!");
     }
     // remove the last character, as it's a newline
-    STATIC_GZIPPED_LINE[strlen(STATIC_GZIPPED_LINE)-1]='\0';
+    int last = strlen(STATIC_GZIPPED_LINE)-1;
+    assert(STATIC_GZIPPED_LINE[last] == '\n' && "Gzipped input line exceeded max length!");
+    STATIC_GZIPPED_LINE[last]='\0';
+
     return STATIC_GZIPPED_LINE;
 }
 
