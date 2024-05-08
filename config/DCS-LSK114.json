@@ -1,0 +1,20 @@
+{
+    "name": "DCS LSK114",
+    "description": "Uses the standard TSO (SSP) and RTP (VNP) from direct cDNA sequencing LSK114 chemistry.",
+    "pipeline": [
+        {
+            "type": "poly",
+            "tail-length": 12,
+            "search-size": 200
+        },
+        {
+            "type": "primer",
+            "tso": "TTTCTGTTGGTGCTGATATTGCT",
+            "rtp": "ACTTGCCTGTCGCTCTATCTTC",
+            "report-artefacts": true
+        }
+    ],
+    "silent": false,
+    "exclude-unknowns": true,
+    "error-rate": 0.25
+}
