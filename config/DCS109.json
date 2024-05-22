@@ -1,0 +1,21 @@
+
+{
+    "name": "DCS109",
+    "description": "The default configuration. First applies PolyA/PolyT classification, then looks for the standard TSO (SSP) and RTP (VNP) used in DCS109 chemistry (same as PCB109 chemistry).",
+    "pipeline": [
+        {
+            "type": "poly",
+            "tail-length": 12,
+            "search-size": 200
+        },
+        {
+            "type": "primer",
+            "tso": "TTTCTGTTGGTGCTGATATTGCTGGG",
+            "rtp": "ACTTGCCTGTCGCTCTATCTTCTTTTTTTTTT",
+            "report-artefacts": true
+        }
+    ],
+    "silent": false,
+    "exclude-unknowns": true,
+    "error-rate": 0.25
+}
