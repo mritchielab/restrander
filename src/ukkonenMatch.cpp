@@ -10,60 +10,123 @@
 bool
 equal_iupac(char primer_char, char seq_char) 
 {
-    std::unordered_map<char, std::unordered_map<char, bool>>
-    map;
+    switch (seq_char) {
+        case 'A': switch (primer_char) {
+            case 'A':
+            case 'W':
+            case 'M':
+            case 'R':
+            case 'D':
+            case 'H':
+            case 'V':
+            case 'N':
+                return true;
 
-    // strong
-    map['S']['G'] = true;
-    map['S']['C'] = true;
+            default: 
+                return false;
+        };
 
-    // weak
-    map['W']['A'] = true;
-    map['W']['T'] = true;
+        case 'C': switch (primer_char) {
+            case 'C':
+            case 'S':
+            case 'M':
+            case 'Y':
+            case 'B':
+            case 'H':
+            case 'V':
+            case 'N':
+                return true;
+            
+            default: 
+                return false;
+        }
 
-    // amino
-    map['M']['A'] = true;
-    map['M']['C'] = true;
+        case 'T': switch (primer_char) {
+            case 'T':
+            case 'W':
+            case 'K':
+            case 'Y':
+            case 'B':
+            case 'D':
+            case 'H':
+            case 'N':
+                return true;
+            
+            default: return false;
+        }
 
-    // ketone
-    map['K']['G'] = true;
-    map['K']['T'] = true;
+        case 'G': switch (primer_char) {
+            case 'G':
+            case 'S':
+            case 'K':
+            case 'R':
+            case 'B':
+            case 'D':
+            case 'V':
+            case 'N':
+                return true;
+            
+            default: return false;
+        }
 
-    // purine
-    map['R']['A'] = true;
-    map['R']['G'] = true;
+        // sequence has an invalid character
+        default: return false;
+    }
 
-    // pyrimidine
-    map['Y']['C'] = true;
-    map['Y']['T'] = true;
+    // std::unordered_map<char, std::unordered_map<char, bool>>
+    // map;
 
-    // not A
-    map['B']['C'] = true;
-    map['B']['G'] = true;
-    map['B']['T'] = true;
+    // // strong
+    // map['S']['G'] = true;
+    // map['S']['C'] = true;
+
+    // // weak
+    // map['W']['A'] = true;
+    // map['W']['T'] = true;
+
+    // // amino
+    // map['M']['A'] = true;
+    // map['M']['C'] = true;
+
+    // // ketone
+    // map['K']['G'] = true;
+    // map['K']['T'] = true;
+
+    // // purine
+    // map['R']['A'] = true;
+    // map['R']['G'] = true;
+
+    // // pyrimidine
+    // map['Y']['C'] = true;
+    // map['Y']['T'] = true;
+
+    // // not A
+    // map['B']['C'] = true;
+    // map['B']['G'] = true;
+    // map['B']['T'] = true;
     
-    // not C
-    map['D']['A'] = true;
-    map['D']['G'] = true;
-    map['D']['T'] = true;
+    // // not C
+    // map['D']['A'] = true;
+    // map['D']['G'] = true;
+    // map['D']['T'] = true;
     
-    // not G
-    map['H']['A'] = true;
-    map['H']['C'] = true;
-    map['H']['T'] = true;
+    // // not G
+    // map['H']['A'] = true;
+    // map['H']['C'] = true;
+    // map['H']['T'] = true;
 
-    // not T
-    map['V']['A'] = true;
-    map['V']['C'] = true;
-    map['V']['G'] = true;
+    // // not T
+    // map['V']['A'] = true;
+    // map['V']['C'] = true;
+    // map['V']['G'] = true;
     
-    // not A
-    map['N']['A'] = true;
-    map['N']['C'] = true;
-    map['N']['G'] = true;
-    map['N']['T'] = true;
+    // // not A
+    // map['N']['A'] = true;
+    // map['N']['C'] = true;
+    // map['N']['G'] = true;
+    // map['N']['T'] = true;
     
-    return primer_char == seq_char or map[primer_char][seq_char];
+    // return primer_char == seq_char or map[primer_char][seq_char];
 }
 
 /*
