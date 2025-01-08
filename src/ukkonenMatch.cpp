@@ -50,6 +50,7 @@ equal_iupac(char primer_char, char seq_char)
             case 'D':
             case 'H':
             case 'N':
+            case 'U': // uracil considered equivalent to thymine
                 return true;
             
             default: return false;
@@ -72,61 +73,6 @@ equal_iupac(char primer_char, char seq_char)
         // sequence has an invalid character
         default: return false;
     }
-
-    // std::unordered_map<char, std::unordered_map<char, bool>>
-    // map;
-
-    // // strong
-    // map['S']['G'] = true;
-    // map['S']['C'] = true;
-
-    // // weak
-    // map['W']['A'] = true;
-    // map['W']['T'] = true;
-
-    // // amino
-    // map['M']['A'] = true;
-    // map['M']['C'] = true;
-
-    // // ketone
-    // map['K']['G'] = true;
-    // map['K']['T'] = true;
-
-    // // purine
-    // map['R']['A'] = true;
-    // map['R']['G'] = true;
-
-    // // pyrimidine
-    // map['Y']['C'] = true;
-    // map['Y']['T'] = true;
-
-    // // not A
-    // map['B']['C'] = true;
-    // map['B']['G'] = true;
-    // map['B']['T'] = true;
-    
-    // // not C
-    // map['D']['A'] = true;
-    // map['D']['G'] = true;
-    // map['D']['T'] = true;
-    
-    // // not G
-    // map['H']['A'] = true;
-    // map['H']['C'] = true;
-    // map['H']['T'] = true;
-
-    // // not T
-    // map['V']['A'] = true;
-    // map['V']['C'] = true;
-    // map['V']['G'] = true;
-    
-    // // not A
-    // map['N']['A'] = true;
-    // map['N']['C'] = true;
-    // map['N']['G'] = true;
-    // map['N']['T'] = true;
-    
-    // return primer_char == seq_char or map[primer_char][seq_char];
 }
 
 /*
