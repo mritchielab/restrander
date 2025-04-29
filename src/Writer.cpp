@@ -125,4 +125,7 @@ void
 Writer::close()
 {
     (this->closeFunc)(*this);
+    if (this->excludeUnknowns) {
+        (this->unknowns->closeFunc)(*this->unknowns);
+    }
 }
