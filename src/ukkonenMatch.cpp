@@ -82,7 +82,6 @@ equal_iupac(char primer_char, char seq_char)
 bool
 containsMatch(std::string &seq, std::string &key, int searchSize, int threshold)
 {
-    // preprocessing
     int m = key.length() - 1;
     int n = std::min((int)seq.length(), searchSize) - 1;
 
@@ -90,9 +89,9 @@ containsMatch(std::string &seq, std::string &key, int searchSize, int threshold)
     for (int i = 0; i < m; ++i) {
         C[i] = i;
     }
-    int lact = threshold + 1; // last active
+    int lact = threshold + 1;
 
-    // searching
+    int firstMatchPos = -1; // keep track of first match
     for (int pos = 0; pos < n + 1; ++pos) {
         int Cp = 0, Cn = 0;
         for (int i = 0; i < lact + 1; ++i) {
@@ -116,11 +115,13 @@ containsMatch(std::string &seq, std::string &key, int searchSize, int threshold)
             lact--;
         }
         if (lact == m) {
-            return 1;
+            if (firstMatchPos == -1 || pos < firstMatchPos) {
+                firstMatchPos = pos; // always pick earliest
+            }
         } else {
             lact++;
         }
     }
 
-    return 0;
+    return firstMatchPos != -1;
 }
