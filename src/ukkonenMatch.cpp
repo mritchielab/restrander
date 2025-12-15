@@ -8,7 +8,7 @@
     assumes no IUPAC codes in the FASTQ sequence from the read itself!
 */
 bool
-equal_iupac(char primer_char, char seq_char) 
+equalIUPAC(char primer_char, char seq_char) 
 {
     switch (seq_char) {
         case 'A': switch (primer_char) {
@@ -95,7 +95,7 @@ containsMatch(std::string &seq, std::string &key, int searchSize, int threshold)
     for (int pos = 0; pos < n + 1; ++pos) {
         int Cp = 0, Cn = 0;
         for (int i = 0; i < lact + 1; ++i) {
-            if (equal_iupac(key[i], seq[pos])) {
+            if (equalIUPAC(key[i], seq[pos])) {
                 Cn = Cp;
             } else {
                 if (Cp < Cn) {
