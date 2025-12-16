@@ -143,7 +143,7 @@ hasTSO(std::string& seq, int thresholdDist, std::string TSO, int searchSize)
 }
 
 bool
-hasAtEnd(std::string& seq, int thresholdDist, std::string key, int searchSize)
+hasAtEnd(std::string& seq, std::string key, int thresholdDist, int searchSize)
 {
     return containsMatch(seq, key, seq.length() - searchSize, searchSize, thresholdDist);
 }

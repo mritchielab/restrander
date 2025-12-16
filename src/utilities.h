@@ -31,6 +31,6 @@ bool
 hasTSO(std::string& seq, int thresholdDist=3, std::string TSO="TTTCTGTTGGTGCTGATATTGCTGGG", int searchSize=200);
 
 bool
-hasAtEnd(std::string& seq, int thresholdDist=3, std::string key, int searchSize=200);
+hasAtEnd(std::string& seq, std::string key, int thresholdDist=3, int searchSize=200);
 
 #endif
