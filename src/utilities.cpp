@@ -129,7 +129,7 @@ hasPolyTTail(std::string& seq, int polyTThreshold, int countThreshold)
 bool
 hasRTP(std::string& seq, int thresholdDist, std::string RTP, int searchSize)
 {
-    return containsMatch(seq, RTP, searchSize, thresholdDist);
+    return containsMatch(seq, RTP, 0, searchSize, thresholdDist);
 }
 
 /*
@@ -139,5 +139,11 @@ hasRTP(std::string& seq, int thresholdDist, std::string RTP, int searchSize)
 bool
 hasTSO(std::string& seq, int thresholdDist, std::string TSO, int searchSize)
 {
-    return containsMatch(seq, TSO, searchSize, thresholdDist);
+    return containsMatch(seq, TSO, 0, searchSize, thresholdDist);
+}
+
+bool
+hasAtEnd(std::string& seq, int thresholdDist, std::string key, int searchSize)
+{
+    return containsMatch(seq, key, seq.length() - searchSize, searchSize, thresholdDist);
 }

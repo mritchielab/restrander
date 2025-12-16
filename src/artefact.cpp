@@ -14,13 +14,14 @@ namespace artefact
     classifyArtefact(
         std::string& seq, const double errorRate,
         std::string& tso, std::string& rtp,
-        bool TSO, bool RTP
+        bool TSO, bool RTP,
+        int searchSize,
     )
     {
         // look for the reverse complement primers
         // (for now, be lazy - only look for the reverse primer that will prove it's an artefact)
-        bool TSOrevComp = TSO ? hasTSO(seq, getEditDist(errorRate, tso), reverseComplement(tso), 2000) : false;
-        bool RTPrevComp = RTP ? hasRTP(seq, getEditDist(errorRate, rtp), reverseComplement(rtp), 2000) : false;
+        bool TSOrevComp = TSO ? hasAtEnd(seq, getEditDist(errorRate, tso), reverseComplement(tso), 200) : false;
+        bool RTPrevComp = RTP ? hasAtEnd(seq, getEditDist(errorRate, rtp), reverseComplement(rtp), 200) : false;
 
         // classify based on this
         if (TSO && TSOrevComp) {

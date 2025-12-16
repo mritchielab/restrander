@@ -30,4 +30,7 @@ hasRTP(std::string& seq, int thresholdDist=3, std::string RTP="ACTTGCCTGTCGCTCTA
 bool
 hasTSO(std::string& seq, int thresholdDist=3, std::string TSO="TTTCTGTTGGTGCTGATATTGCTGGG", int searchSize=200);
 
+bool
+hasAtEnd(std::string& seq, int thresholdDist=3, std::string key, int searchSize=200);
+
 #endif

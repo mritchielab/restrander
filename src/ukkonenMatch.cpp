@@ -80,10 +80,10 @@ equalIUPAC(char primer_char, char seq_char)
     using a simple implementation of Ukkonen
 */
 bool
-containsMatch(std::string &seq, std::string &key, int searchSize, int threshold)
+containsMatch(std::string &seq, std::string &key, int startPos, int searchSize, int threshold)
 {
     int m = key.length() - 1;
-    int n = std::min((int)seq.length(), searchSize) - 1;
+    int n = std::min((int)seq.length() - startPos, searchSize) - 1;
 
     int C[m];
     for (int i = 0; i < m; ++i) {
@@ -95,7 +95,7 @@ containsMatch(std::string &seq, std::string &key, int searchSize, int threshold)
     for (int pos = 0; pos < n + 1; ++pos) {
         int Cp = 0, Cn = 0;
         for (int i = 0; i < lact + 1; ++i) {
-            if (equalIUPAC(key[i], seq[pos])) {
+            if (equalIUPAC(key[i], seq[startPos + pos])) {
                 Cn = Cp;
             } else {
                 if (Cp < Cn) {
