@@ -1,5 +1,6 @@
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 #include "ukkonenMatch.h"
 
@@ -85,7 +86,7 @@ containsMatch(std::string &seq, std::string &key, int searchSize, int threshold)
     int m = key.length() - 1;
     int n = std::min((int)seq.length(), searchSize) - 1;
 
-    int C[m];
+    std::vector<int> C(m, 0);
     for (int i = 0; i < m; ++i) {
         C[i] = i;
     }
