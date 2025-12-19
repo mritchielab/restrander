@@ -25,6 +25,17 @@ namespace stats {
         std::unordered_map<artefact::Artefact, int> stats;
     };
 
+    struct ArtefactBreakdown
+    {
+        // strand counts when there is NO artefact
+        std::unordered_map<strand::Strand, int> noArtefactStrand;
+
+        // counts of specific artefact types (TSO-TSO, RTP-RTP)
+        std::unordered_map<artefact::Artefact,int> artefactTypes;
+
+        int noArtefactTotal = 0;
+        int artefactTotal = 0;
+    };
     /*
         holds all the necessary stats about the reads in the file being parsed
     */
@@ -33,6 +44,7 @@ namespace stats {
         int total;
         StrandStats strand;
         ArtefactStats artefact;
+        ArtefactBreakdown breakdown;
     };
 
     nlohmann::json
@@ -44,6 +56,8 @@ namespace stats {
     nlohmann::json
     toJson(Stats stats);
 
+    nlohmann::json
+    toJson(ArtefactBreakdown stats);
 }
 
 #endif
