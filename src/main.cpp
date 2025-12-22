@@ -82,6 +82,14 @@ main(int argc, char ** argv)
         stats.total++;
         stats.strand.stats[record.strand]++;
         stats.artefact.stats[record.artefact]++;
+
+        if (artefact::getName(record.artefact) == "no artefact") {
+            stats.breakdown.noArtefactStrand[record.strand]++;
+            stats.breakdown.noArtefactTotal++;
+        } else {
+            stats.breakdown.artefactTypes[record.artefact]++;
+            stats.breakdown.artefactTotal++;
+        }
     }
 
     if (!config.silent) {

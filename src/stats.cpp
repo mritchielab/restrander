@@ -28,9 +28,28 @@ namespace stats {
     toJson(Stats stats)
     {
         nlohmann::json json;
+        json["artefactBreakdown"] = toJson(stats.breakdown);
         json["totalReads"] = stats.total;
-        json["strandStats"] = toJson(stats.strand);
-        json["artefactStats"] = toJson(stats.artefact);
+
+        return json;
+    }
+
+    nlohmann::json
+    toJson(ArtefactBreakdown breakdown)
+    {
+        nlohmann::json json;
+        for (const auto& [strand, count] : breakdown.noArtefactStrand) {
+            json["no artefact"][std::string(1, strand)] = count;
+        }
+        json["no artefact"]["total"] = breakdown.noArtefactTotal;
+
+        nlohmann::json artefactJson;
+        for (const auto& [key, count] : breakdown.artefactTypes) {
+            artefactJson[artefact::getName(key)] = count;
+        }
+        artefactJson["total"] = breakdown.artefactTotal;
+
+        json["artefact"] = artefactJson;
 
         return json;
     }
