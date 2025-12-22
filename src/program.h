@@ -2,7 +2,7 @@
 #define PROGRAM_H
 
 namespace program {
-    const std::string version = "v1.1.2";
+    const std::string version = "v1.1.3";
 
     void
     note(std::string text);
