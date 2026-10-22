@@ -87,11 +87,12 @@ containsMatch(std::string &seq, std::string &key, int searchSize, int threshold)
     int m = key.length() - 1;
     int n = std::min((int)seq.length(), searchSize) - 1;
 
-    std::vector<int> C(m + 1, 0);
-    for (int i = 0; i < m; ++i) {
-        C[i] = i;
+    // C[i] = edit distance of key[0..i] vs. the text so far; initially vs. empty text
+    std::vector<int> C(m + 1);
+    for (int i = 0; i <= m; ++i) {
+        C[i] = i + 1;
     }
-    int lact = threshold + 1; // last active
+    int lact = std::min(threshold + 1, m); // last active
 
     // searching
     for (int pos = 0; pos < n + 1; ++pos) {
@@ -113,7 +114,7 @@ containsMatch(std::string &seq, std::string &key, int searchSize, int threshold)
         }
 
         // updating lact
-        while (C[lact] > threshold) {
+        while (lact >= 0 && C[lact] > threshold) {
             lact--;
         }
         if (lact == m) {
