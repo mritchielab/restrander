@@ -83,16 +83,18 @@ equalIUPAC(char primer_char, char seq_char)
 bool
 containsMatch(std::string &seq, std::string &key, int searchSize, int threshold)
 {
+    // preprocessing
     int m = key.length() - 1;
     int n = std::min((int)seq.length(), searchSize) - 1;
 
-    std::vector<int> C(m + 1, 0);
-    for (int i = 0; i < m; ++i) {
-        C[i] = i;
+    // C[i] = edit distance of key[0..i] vs. the text so far; initially vs. empty text
+    std::vector<int> C(m + 1);
+    for (int i = 0; i <= m; ++i) {
+        C[i] = i + 1;
     }
-    int lact = threshold + 1;
+    int lact = std::min(threshold + 1, m); // last active
 
-    int firstMatchPos = -1; // keep track of first match
+    // searching
     for (int pos = 0; pos < n + 1; ++pos) {
         int Cp = 0, Cn = 0;
         for (int i = 0; i < lact + 1; ++i) {
@@ -112,17 +114,15 @@ containsMatch(std::string &seq, std::string &key, int searchSize, int threshold)
         }
 
         // updating lact
-        while (C[lact] > threshold) {
+        while (lact >= 0 && C[lact] > threshold) {
             lact--;
         }
         if (lact == m) {
-            if (firstMatchPos == -1 || pos < firstMatchPos) {
-                firstMatchPos = pos; // always pick earliest
-            }
+            return 1;
         } else {
             lact++;
         }
     }
 
-    return firstMatchPos != -1;
+    return 0;
 }
